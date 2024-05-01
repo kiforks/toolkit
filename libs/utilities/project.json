@@ -1,0 +1,19 @@
+{
+	"name": "utilities",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "libs/utilities/src",
+	"prefix": "ks",
+	"projectType": "library",
+	"tags": ["scope:utilities"],
+	"targets": {
+		"build": {
+			"executor": "@nx/angular:package",
+			"outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+			"options": {
+				"project": "libs/utilities/ng-package.json",
+				"tsConfig": "tsconfig.lib.json"
+			},
+			"defaultConfiguration": "production"
+		}
+	}
+}

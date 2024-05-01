@@ -1,0 +1,19 @@
+{
+	"name": "ui",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "libs/ui/src",
+	"prefix": "ks",
+	"projectType": "library",
+	"tags": ["scope:ui"],
+	"targets": {
+		"build": {
+			"executor": "@nx/angular:package",
+			"outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+			"options": {
+				"project": "libs/ui/ng-package.json",
+				"tsConfig": "tsconfig.lib.json"
+			},
+			"defaultConfiguration": "production"
+		}
+	}
+}

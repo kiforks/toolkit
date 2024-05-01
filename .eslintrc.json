@@ -1,47 +1,73 @@
 {
-  "root": true,
-  "ignorePatterns": ["!**/*"],
-  "plugins": ["@nx"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts"],
-      "extends": [
-        "plugin:@nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates"
-      ],
-      "rules": {
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            "type": "attribute",
-            "prefix": "app",
-            "style": "camelCase"
-          }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
-          }
-        ]
-      }
-    },
-    {
-      "files": ["*.html"],
-      "extends": ["plugin:@nx/angular-template"],
-      "rules": {}
-    }
-  ]
+	"root": true,
+	"ignorePatterns": ["!**/*"],
+	"plugins": ["@nx"],
+	"overrides": [
+		{
+			"files": ["*.json"],
+			"parser": "jsonc-eslint-parser",
+			"rules": {
+				"@nx/dependency-checks": [
+					"error",
+					{
+						"ignoredDependencies": ["@angular/cdk", "lodash", "rxjs", "@kiforks/utilities"]
+					}
+				]
+			}
+		},
+		{
+			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+			"rules": {
+				"@nx/enforce-module-boundaries": [
+					"error",
+					{
+						"enforceBuildableLibDependency": true,
+						"checkNestedExternalImports": true,
+						"banTransitiveDependencies": true,
+						"depConstraints": [
+							{
+								"sourceTag": "*",
+								"onlyDependOnLibsWithTags": ["*"]
+							},
+							{
+								"sourceTag": "scope:utilities",
+								"onlyDependOnLibsWithTags": ["scope:utilities"]
+							},
+							{
+								"sourceTag": "scope:ui",
+								"onlyDependOnLibsWithTags": ["scope:utilities", "scope:ui"]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"files": ["*.ts", "*.tsx"],
+			"extends": ["plugin:@nx/typescript"]
+		},
+		{
+			"files": ["*.js", "*.jsx"],
+			"extends": ["plugin:@nx/javascript"]
+		},
+		{
+			"files": ["*.ts"],
+			"parserOptions": {
+				"ecmaVersion": 2020,
+				"sourceType": "module",
+				"project": ["tsconfig.json"],
+				"createDefaultProgram": true
+			},
+			"extends": ["plugin:@nx/angular", "kifor/angular-typescript", "kifor/typescript"]
+		},
+		{
+			"files": ["*.html"],
+			"extends": ["plugin:@nx/angular-template", "kifor/angular-template"]
+		},
+		{
+			"files": ["*.spec.ts", "*.host.ts", "*.po.ts"],
+			"env": { "jest/globals": true },
+			"extends": ["kifor/tests", "kifor/tests-jest"]
+		}
+	]
 }

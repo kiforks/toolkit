@@ -1,56 +1,141 @@
 {
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": [
-      "default",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.js",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/test-setup.[jt]s"
-    ],
-    "sharedGlobals": []
-  },
-  "targetDefaults": {
-    "@angular-devkit/build-angular:application": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
-    },
-    "@nx/eslint:lint": {
-      "cache": true,
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore",
-        "{workspaceRoot}/eslint.config.js"
-      ]
-    },
-    "@nx/jest:jest": {
-      "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
-    }
-  },
-  "generators": {
-    "@nx/angular:application": {
-      "e2eTestRunner": "none",
-      "linter": "eslint",
-      "style": "scss",
-      "unitTestRunner": "jest"
-    }
-  },
-  "defaultProject": "toolkit",
-  "nxCloudAccessToken": "NDczOGJlOWItOWVkNy00NDVhLThmOTAtMjRhOGYyMDQwZTI2fHJlYWQtd3JpdGU="
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"namedInputs": {
+		"default": ["{projectRoot}/**/*", "sharedGlobals"],
+		"production": [
+			"default",
+			"!{projectRoot}/.stylelint.json",
+			"!{projectRoot}/.prettier.json",
+			"!{projectRoot}/.eslintrc.json",
+			"!{projectRoot}/eslint.config.js",
+			"!{projectRoot}/commitlint.config.js",
+			"!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+			"!{projectRoot}/tsconfig.spec.json",
+			"!{projectRoot}/jest.config.[jt]s",
+			"!{projectRoot}/src/test-setup.[jt]s",
+			"!{projectRoot}/test-setup.[jt]s"
+		],
+		"sharedGlobals": []
+	},
+	"targetDefaults": {
+		"@angular-devkit/build-angular:application": {
+			"cache": true,
+			"dependsOn": ["^build"],
+			"inputs": ["production", "^production"]
+		},
+		"@nx/eslint:lint": {
+			"cache": true,
+			"inputs": [
+				"default",
+				"{workspaceRoot}/.eslintrc.json",
+				"{workspaceRoot}/.eslintignore",
+				"{workspaceRoot}/eslint.config.js"
+			]
+		},
+		"nx-stylelint:lint": {
+			"cache": true,
+			"inputs": ["default", "{workspaceRoot}/.stylelint.json", "{workspaceRoot}/.stylelintignore"]
+		},
+		"@nx/jest:jest": {
+			"cache": true,
+			"inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+			"options": {
+				"passWithNoTests": true
+			},
+			"configurations": {
+				"ci": {
+					"ci": true,
+					"codeCoverage": true
+				}
+			}
+		},
+		"@nx/angular:package": {
+			"cache": true,
+			"dependsOn": ["^build"],
+			"inputs": ["production", "^production"]
+		}
+	},
+	"generators": {
+		"@nx/angular:application": {
+			"e2eTestRunner": "playwright",
+			"linter": "eslint",
+			"style": "scss",
+			"unitTestRunner": "jest"
+		},
+		"@schematics/angular:component": {
+			"style": "scss",
+			"changeDetection": "OnPush",
+			"prefix": "ks",
+			"skipTests": true,
+			"skipImport": true
+		},
+		"@schematics/angular:directive": {
+			"standalone": true,
+			"prefix": "ks",
+			"skipTests": true,
+			"skipImport": true,
+			"flat": false
+		},
+		"@schematics/angular:pipe": {
+			"standalone": true,
+			"skipTests": true,
+			"skipImport": true,
+			"flat": false
+		},
+		"@schematics/angular:service": {
+			"skipTests": true,
+			"flat": false
+		},
+		"@schematics/angular:guard": {
+			"skipTests": true,
+			"flat": false
+		},
+		"@schematics/angular:interceptor": {
+			"skipTests": true,
+			"flat": false
+		},
+		"@schematics/angular:interface": {
+			"prefix": "Ks",
+			"type": "interface"
+		},
+		"@schematics/angular:enum": {
+			"type": "enum"
+		},
+		"@ngneat/spectator:spectator-component": {
+			"style": "scss",
+			"changeDetection": "OnPush",
+			"prefix": "ks",
+			"skipImport": true
+		},
+		"@ngneat/spectator:spectator-directive": {
+			"standalone": true,
+			"prefix": "ks",
+			"skipImport": true,
+			"flat": false
+		},
+		"@ngneat/spectator:spectator-pipe": {
+			"standalone": true,
+			"skipImport": true,
+			"flat": false
+		},
+		"@ngneat/spectator:spectator-service": {
+			"flat": false
+		}
+	},
+	"plugins": [
+		{
+			"plugin": "@nx/eslint/plugin",
+			"options": {
+				"targetName": "lint"
+			}
+		},
+		{
+			"plugin": "nx-stylelint",
+			"options": {
+				"targetName": "stylelint"
+			}
+		}
+	],
+	"defaultProject": "@kiforks/toolkit",
+	"nxCloudAccessToken": "NDczOGJlOWItOWVkNy00NDVhLThmOTAtMjRhOGYyMDQwZTI2fHJlYWQtd3JpdGU="
 }

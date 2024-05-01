@@ -1,79 +1,95 @@
 {
-  "name": "toolkit",
-  "$schema": "node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "prefix": "app",
-  "sourceRoot": "./src",
-  "tags": [],
-  "targets": {
-    "build": {
-      "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/toolkit",
-        "index": "./src/index.html",
-        "browser": "./src/main.ts",
-        "polyfills": ["zone.js"],
-        "tsConfig": "./tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": ["./src/favicon.ico", "./src/assets"],
-        "styles": ["./src/styles.scss"],
-        "scripts": []
-      },
-      "configurations": {
-        "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
-          "outputHashing": "all"
-        },
-        "development": {
-          "optimization": false,
-          "extractLicenses": false,
-          "sourceMap": true
-        }
-      },
-      "defaultConfiguration": "production"
-    },
-    "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
-      "configurations": {
-        "production": {
-          "buildTarget": "toolkit:build:production"
-        },
-        "development": {
-          "buildTarget": "toolkit:build:development"
-        }
-      },
-      "defaultConfiguration": "development"
-    },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "toolkit:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["./src"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
-      "options": {
-        "jestConfig": "jest.config.ts"
-      }
-    }
-  }
+	"name": "@kiforks/toolkit",
+	"$schema": "node_modules/nx/schemas/project-schema.json",
+	"projectType": "application",
+	"prefix": "ks",
+	"sourceRoot": "./src",
+	"tags": ["scope:app"],
+	"targets": {
+		"build": {
+			"executor": "@nx/angular:browser-esbuild",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/app",
+				"index": "./src/index.html",
+				"main": "./src/main.ts",
+				"polyfills": ["zone.js"],
+				"tsConfig": "./tsconfig.app.json",
+				"inlineStyleLanguage": "scss",
+				"assets": ["./src/favicon.ico", "./src/assets"],
+				"styles": ["./src/styles.scss"],
+				"stylePreprocessorOptions": {
+					"includePaths": ["src/assets/scss"]
+				},
+				"scripts": []
+			},
+			"configurations": {
+				"production": {
+					"budgets": [
+						{
+							"type": "anyComponentStyle",
+							"maximumWarning": "5kb",
+							"maximumError": "6kb"
+						}
+					],
+					"optimization": true,
+					"outputHashing": "all",
+					"sourceMap": false,
+					"extractLicenses": true,
+					"fileReplacements": [
+						{
+							"replace": "src/environments/environment.ts",
+							"with": "src/environments/environment.prod.ts"
+						}
+					]
+				},
+				"development": {
+					"localize": false,
+					"preserveSymlinks": false,
+					"optimization": false,
+					"extractLicenses": false,
+					"sourceMap": true
+				}
+			},
+			"defaultConfiguration": "development"
+		},
+		"serve": {
+			"executor": "@angular-devkit/build-angular:dev-server",
+			"configurations": {
+				"production": {
+					"buildTarget": "@kiforks/toolkit:build:production"
+				},
+				"development": {
+					"buildTarget": "@kiforks/toolkit:build:development"
+				}
+			},
+			"defaultConfiguration": "development"
+		},
+		"extract-i18n": {
+			"executor": "@angular-devkit/build-angular:extract-i18n",
+			"options": {
+				"buildTarget": "@kiforks/toolkit:build",
+				"outputPath": "src/locale"
+			}
+		},
+		"lint": {
+			"executor": "@nx/eslint:lint",
+			"options": {
+				"lintFilePatterns": ["./**/*.{ts,html}", "./libs/**/*.json"]
+			}
+		},
+		"stylelint": {
+			"executor": "nx-stylelint:lint",
+			"options": {
+				"lintFilePatterns": ["./**/*.scss"]
+			}
+		},
+		"test": {
+			"executor": "@nx/jest:jest",
+			"outputs": ["{workspaceRoot}/coverage/{projectName}"],
+			"options": {
+				"jestConfig": "jest.config.ts"
+			}
+		}
+	}
 }

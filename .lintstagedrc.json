@@ -1,0 +1,5 @@
+{
+	"*.{ts,html,json,scss,js,tsx,jsx}": ["npx nx format:check"],
+	"*.scss": ["npx stylelint"],
+	"*.{ts,tsx,html,js,jsx}": ["eslint"]
+}
