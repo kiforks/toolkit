@@ -10,7 +10,7 @@
 				"@nx/dependency-checks": [
 					"error",
 					{
-						"ignoredDependencies": ["@angular/cdk", "lodash", "rxjs", "@kiforks/utilities"]
+						"ignoredDependencies": ["@angular/cdk", "lodash", "lodash-es", "rxjs", "@kiforks/utilities", "subsink"]
 					}
 				]
 			}

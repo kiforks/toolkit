@@ -1,20 +1,16 @@
 import { Breakpoint } from '@kiforks/utilities';
-import { Observable } from 'rxjs';
 
 /*
- * For min-width no media query necessary for xs breakpoint as it's effectively `@media (min-width: 0) { ... }`
- * For max-width no media query necessary for xs breakpoint as it's effectively `@media (max-width: 0) { ... }`
+ * For min-width no media-min query necessary for xs breakpoint as it's effectively `@media-min (min-width: 0) { ... }`
+ * For max-width no media-min query necessary for xs breakpoint as it's effectively `@media-min (max-width: 0) { ... }`
  * This is the reason why we exclude 'xs' breakpoint from this type
  * */
-export type MediaBreakpoint = Exclude<Breakpoint, 'xs'>;
-export type MediaBetweenBreakpoints = [Breakpoint, MediaBreakpoint];
+export type KsMediaBreakpoint = Exclude<Breakpoint, 'xs'>;
+export type KsMediaBetweenBreakpoints = [Breakpoint, KsMediaBreakpoint];
 
-export interface MediaDataContext {
-	mediaDesktop: Observable<boolean>;
-	mediaMobile: Observable<boolean>;
+export type MediaBreakpoints = Record<Breakpoint, number>;
 
-	mediaBetween([breakpointFrom, breakpointTo]: MediaBetweenBreakpoints): Observable<boolean>;
-	mediaMax(breakpoint: MediaBreakpoint): Observable<boolean>;
-	mediaMin(breakpoint: MediaBreakpoint): Observable<boolean>;
-	mediaOnly(breakpoint: Breakpoint): Observable<boolean>;
+export interface KsMediaConfig {
+	breakpoints: MediaBreakpoints;
+	deviceBreakpoint: KsMediaBreakpoint;
 }

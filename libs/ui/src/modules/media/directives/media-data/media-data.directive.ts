@@ -1,25 +1,23 @@
 import { Directive, TemplateRef, ViewContainerRef } from '@angular/core';
 
-import { MediaService } from '../../services';
-
-import { MediaDataContext } from '../../interfaces';
+import { KsMediaService } from '../../services';
 
 @Directive({
 	selector: '[ksMediaData]',
 	standalone: true,
 })
-export class MediaDataDirective {
-	private readonly context: MediaDataContext = this.mediaService;
+export class KsMediaDataDirective {
+	private readonly context: KsMediaService = this.ksMediaService;
 
 	constructor(
-		private readonly mediaService: MediaService,
-		private readonly templateRef: TemplateRef<MediaDataContext>,
+		private readonly ksMediaService: KsMediaService,
+		private readonly templateRef: TemplateRef<KsMediaService>,
 		private readonly viewContainerRef: ViewContainerRef
 	) {
 		this.viewContainerRef.createEmbeddedView(this.templateRef, this.context);
 	}
 
-	public static ngTemplateContextGuard(_dir: MediaDataDirective, _ctx: unknown): _ctx is MediaDataContext {
+	public static ngTemplateContextGuard(_dir: KsMediaDataDirective, _ctx: unknown): _ctx is KsMediaService {
 		return true;
 	}
 }

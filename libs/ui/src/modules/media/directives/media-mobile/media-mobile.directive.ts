@@ -1,17 +1,17 @@
 import { Directive, effect, TemplateRef, ViewContainerRef } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { MediaService } from '../../services';
+import { KsMediaService } from '../../services';
 
 @Directive({
 	selector: '[ksMediaMobile]',
 	standalone: true,
 })
-export class MediaMobileDirective {
-	private readonly mediaMobile = toSignal(this.mediaService.mediaMobile);
+export class KsMediaMobileDirective {
+	private readonly mediaMobile = toSignal(this.ksMediaService.mediaMobile);
 
 	constructor(
-		private readonly mediaService: MediaService,
+		private readonly ksMediaService: KsMediaService,
 		private readonly templateRef: TemplateRef<null>,
 		private readonly viewContainerRef: ViewContainerRef
 	) {
