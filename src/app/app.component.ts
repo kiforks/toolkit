@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
 	imports: [RouterModule],
-	selector: 'app-root',
+	selector: '[appRoot]',
 	templateUrl: './app.component.html',
 })
 export class AppComponent {
