@@ -1,0 +1,20 @@
+@mixin hover {
+	&:hover,
+	&:focus {
+		@content;
+	}
+}
+
+@mixin focus {
+	&:active,
+	&:hover,
+	&:focus {
+		@content;
+	}
+}
+
+@mixin disable {
+	cursor: default;
+	user-select: none;
+	pointer-events: none;
+}

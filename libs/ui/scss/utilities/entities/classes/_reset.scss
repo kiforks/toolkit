@@ -1,0 +1,41 @@
+@use '../../core';
+
+.reset-button {
+	@include core.reset-button;
+}
+
+.reset-fieldset {
+	@include core.reset-fieldset;
+}
+
+.reset-input {
+	@include core.reset-input;
+}
+
+.reset-list {
+	@include core.reset-list;
+}
+
+.reset-paragraph {
+	@include core.reset-paragraph;
+}
+
+.reset-quote {
+	@include core.reset-quote;
+}
+
+.reset-link {
+	@include core.reset-link;
+}
+
+.reset-form {
+	@include core.reset-form;
+}
+
+.reset-table {
+	@include core.reset-table;
+}
+
+.reset-box-model {
+	@include core.reset-box-model;
+}

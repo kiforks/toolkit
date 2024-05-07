@@ -1,0 +1,26 @@
+@use '../variables/params';
+@use '../../media';
+
+@mixin make-grid($columns: params.$grid-columns, $grid-breakpoints: media.$breakpoints) {
+	@each $breakpoint in map-keys($grid-breakpoints) {
+		$infix: media.breakpoint-infix($breakpoint, $grid-breakpoints);
+
+		@include media.media-min($breakpoint, $grid-breakpoints) {
+			@if $columns > 0 {
+				@for $i from 1 through $columns {
+					.col#{$infix}-#{$i} {
+						grid-column: auto / span $i;
+					}
+				}
+
+				// Start with `1` because `0` is and invalid value.
+				// Ends with `$columns - 1` because offsetting by the width of an entire row isn't possible.
+				@for $i from 1 through ($columns - 1) {
+					.start#{$infix}-#{$i} {
+						grid-column-start: $i;
+					}
+				}
+			}
+		}
+	}
+}

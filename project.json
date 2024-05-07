@@ -2,7 +2,6 @@
 	"name": "@kiforks/toolkit",
 	"$schema": "node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
-	"prefix": "ks",
 	"sourceRoot": "./src",
 	"tags": ["scope:app"],
 	"targets": {
@@ -19,7 +18,7 @@
 				"assets": ["./src/favicon.ico", "./src/assets"],
 				"styles": ["./src/styles.scss"],
 				"stylePreprocessorOptions": {
-					"includePaths": ["src/assets/scss"]
+					"includePaths": ["libs/ui/scss", "src/assets"]
 				},
 				"scripts": [],
 				"allowedCommonJsDependencies": ["lodash"]

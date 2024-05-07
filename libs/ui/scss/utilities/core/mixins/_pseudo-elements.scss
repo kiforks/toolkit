@@ -1,0 +1,27 @@
+@mixin after($position: absolute) {
+	&::after {
+		content: '';
+		position: $position;
+		display: block;
+		@content;
+	}
+}
+
+@mixin before($position: absolute) {
+	&::before {
+		content: '';
+		position: $position;
+		display: block;
+		@content;
+	}
+}
+
+@mixin before-after($position: absolute) {
+	&::before,
+	&::after {
+		content: '';
+		position: $position;
+		display: block;
+		@content;
+	}
+}

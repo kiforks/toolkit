@@ -1,0 +1,35 @@
+@mixin flex($direction: row) {
+	display: flex;
+
+	@if $direction == row {
+		flex-wrap: wrap;
+	}
+
+	@if $direction == column-reverse {
+		flex-direction: column-reverse;
+	}
+
+	@if $direction == column {
+		flex-direction: column;
+	}
+}
+
+@mixin flex-height {
+	@include flex(column);
+
+	flex-grow: 1;
+}
+
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+}
+
+@mixin flex-inline-center {
+	display: inline-flex;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+}

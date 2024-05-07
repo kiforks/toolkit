@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'sass:meta';
+
+@layer library {
+	@include meta.load-css('base');
+	@include meta.load-css('utilities');
+}

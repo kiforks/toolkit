@@ -1,0 +1,20 @@
+/**
+ * Media queries breakpoints
+ * - - - - - - - - - - - - - - - - - - - - - - - - -
+ * Description:
+ * Define the breakpoints at which your layout will
+ * change, adapting to different screen sizes.
+ * - - - - - - - - - - - - - - - - - - - - - - - - -
+ * Copyright TenantCloud
+ * - - - - - - - - - - - - - - - - - - - - - - - - -
+ */
+
+/* Mixins breakpoints */
+$breakpoints: (
+	'xs': 0 /* ≥0px */,
+	'sm': 576px /* ≥576px */,
+	'md': 768px /* ≥768px */,
+	'lg': 992px /* ≥992px */,
+	'xl': 1200px /* ≥1200px */,
+	'xxl': 1400px /* ≥1400px */,
+) !default;

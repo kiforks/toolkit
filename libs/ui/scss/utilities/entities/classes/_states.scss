@@ -1,0 +1,5 @@
+@use '../../core';
+
+.visually-hidden {
+	@include core.visually-hidden;
+}

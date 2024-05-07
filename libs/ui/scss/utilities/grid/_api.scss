@@ -1,0 +1,12 @@
+@use 'variables';
+@use 'mixins';
+
+/* stylelint-disable selector-disallowed-list */
+.row {
+	display: grid;
+	gap: var(--gap, #{variables.$grid-gutter-width});
+	grid-template-columns: repeat(var(--columns, #{variables.$grid-columns}), 1fr);
+	grid-template-rows: repeat(var(--rows, 1), 1fr);
+
+	@include mixins.make-grid;
+}

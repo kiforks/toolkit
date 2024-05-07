@@ -1,0 +1,9 @@
+@use '../../core';
+
+.text-truncate {
+	@include core.text-truncate;
+}
+
+.text-truncate-multiline {
+	@include core.text-truncate-multiline;
+}

@@ -1,0 +1,9 @@
+@use '../../core';
+
+.flex-center {
+	@include core.flex-center;
+}
+
+.flex-height {
+	@include core.flex-height;
+}

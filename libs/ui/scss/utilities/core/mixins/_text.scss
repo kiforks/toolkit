@@ -1,0 +1,16 @@
+@mixin text-truncate {
+	max-width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* Styles for addition lines for 1 line or multiline ellipsis */
+@mixin text-truncate-multiline($line-clamp: 2) {
+	display: -webkit-box !important;
+	overflow: hidden;
+	white-space: normal !important;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: $line-clamp;
+	-webkit-box-orient: vertical !important;
+}

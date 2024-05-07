@@ -4,7 +4,8 @@
 	"license": "MIT",
 	"scripts": {
 		"start": "nx serve",
-		"build": "nx run-many --target=build --all",
+		"build": "nx run-many --target=build",
+		"production": "nx run-many --target=build --all --configuration production",
 		"test": "nx test",
 		"format": "nx format:write",
 		"stylelint": "nx stylelint --fix",
@@ -72,6 +73,8 @@
 		"kifor-stylelint-config": "^1.0.3",
 		"lint-staged": "^15.2.2",
 		"lodash": "^4.17.21",
+		"mathsass-library": "^1.0.0",
+		"modularscale-sass": "^3.0.10",
 		"ng-mocks": "^14.12.2",
 		"ng-packagr": "~17.3.0",
 		"nx": "18.3.4",

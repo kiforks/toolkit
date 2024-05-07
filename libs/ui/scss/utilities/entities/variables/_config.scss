@@ -1,0 +1,433 @@
+@use 'sass:map';
+@use '../../core/variables';
+
+$config: () !default;
+
+/* stylelint-disable scss/dollar-variable-default */
+$config-main: map.merge(
+	(
+		'overflow': (
+			property: overflow,
+			values: auto hidden visible scroll,
+		),
+		'display': (
+			property: display,
+			class: d,
+			values: inline inline-block block grid table table-row table-cell flex inline-flex none,
+		),
+		'position': (
+			property: position,
+			values: static relative absolute fixed sticky,
+		),
+		'object-fit': (
+			property: object-fit,
+			values: contain cover,
+		),
+		'cursor': (
+			property: cursor,
+			values: default pointer auto,
+		),
+		'width': (
+			property: width,
+			class: w,
+			values: (
+				25: 25%,
+				50: 50%,
+				75: 75%,
+				100: 100%,
+				max-content: max-content,
+				auto: auto,
+			),
+		),
+		'max-width': (
+			property: max-width,
+			class: mw,
+			values: (
+				25: 25%,
+				50: 50%,
+				75: 75%,
+				100: 100%,
+				auto: auto,
+			),
+		),
+		'height': (
+			property: height,
+			class: h,
+			values: (
+				25: 25%,
+				50: 50%,
+				75: 75%,
+				100: 100%,
+				auto: auto,
+			),
+		),
+		'max-height': (
+			property: max-height,
+			class: mh,
+			values: (
+				25: 25%,
+				50: 50%,
+				75: 75%,
+				100: 100%,
+				auto: auto,
+			),
+		),
+		'flex-direction': (
+			property: flex-direction,
+			class: flex,
+			values: row column row-reverse column-reverse,
+		),
+		'flex-grow': (
+			property: flex-grow,
+			class: flex,
+			values: (
+				grow-0: 0,
+				grow-1: 1,
+			),
+		),
+		'flex-shrink': (
+			property: flex-shrink,
+			class: flex,
+			values: (
+				shrink-0: 0,
+				shrink-1: 1,
+			),
+		),
+		'flex-wrap': (
+			property: flex-wrap,
+			class: flex,
+			values: wrap nowrap wrap-reverse,
+		),
+		'justify-content': (
+			property: justify-content,
+			values: (
+				start: flex-start,
+				end: flex-end,
+				center: center,
+				between: space-between,
+				around: space-around,
+				evenly: space-evenly,
+			),
+		),
+		'justify-items': (
+			property: justify-items,
+			values: (
+				start: start,
+				end: end,
+				center: center,
+			),
+		),
+		'justify-self': (
+			property: justify-self,
+			values: (
+				auto: auto,
+				start: flex-start,
+				end: flex-end,
+				center: center,
+				stretch: stretch,
+			),
+		),
+		'align-items': (
+			property: align-items,
+			values: (
+				start: flex-start,
+				end: flex-end,
+				center: center,
+				baseline: baseline,
+				stretch: stretch,
+			),
+		),
+		'align-content': (
+			property: align-content,
+			values: (
+				start: flex-start,
+				end: flex-end,
+				center: center,
+				between: space-between,
+				around: space-around,
+				stretch: stretch,
+			),
+		),
+		'align-self': (
+			property: align-self,
+			values: (
+				auto: auto,
+				start: flex-start,
+				end: flex-end,
+				center: center,
+				baseline: baseline,
+				stretch: stretch,
+			),
+		),
+		'order': (
+			responsive: true,
+			property: order,
+			values: (
+				first: -1,
+				0: 0,
+				1: 1,
+				2: 2,
+				last: 6,
+			),
+		),
+		// Margin helpers
+		'margin':
+			(
+				responsive: true,
+				property: margin,
+				class: m,
+				values:
+					map.merge(
+						variables.$indents-main,
+						(
+							'auto': auto,
+						)
+					),
+			),
+		'margin-x': (
+			responsive: true,
+			property: margin-right margin-left,
+			class: mx,
+			values:
+				map.merge(
+					variables.$indents-main,
+					(
+						'auto': auto,
+					)
+				),
+		),
+		'margin-y': (
+			responsive: true,
+			property: margin-top margin-bottom,
+			class: my,
+			values:
+				map.merge(
+					variables.$indents-main,
+					(
+						'auto': auto,
+					)
+				),
+		),
+		'margin-top': (
+			responsive: true,
+			property: margin-top,
+			class: m-t,
+			values:
+				map.merge(
+					variables.$indents-main,
+					(
+						'auto': auto,
+					)
+				),
+		),
+		'margin-right': (
+			responsive: true,
+			property: margin-right,
+			class: m-r,
+			values:
+				map.merge(
+					variables.$indents-main,
+					(
+						'auto': auto,
+					)
+				),
+		),
+		'margin-bottom': (
+			responsive: true,
+			property: margin-bottom,
+			class: m-b,
+			values:
+				map.merge(
+					variables.$indents-main,
+					(
+						'auto': auto,
+					)
+				),
+		),
+		'margin-left': (
+			responsive: true,
+			property: margin-left,
+			class: m-l,
+			values:
+				map.merge(
+					variables.$indents-main,
+					(
+						'auto': auto,
+					)
+				),
+		),
+		// Padding helpers
+		'padding':
+			(
+				responsive: true,
+				property: padding,
+				class: p,
+				values: variables.$indents-main,
+			),
+		'padding-x': (
+			responsive: true,
+			property: padding-right padding-left,
+			class: px,
+			values: variables.$indents-main,
+		),
+		'padding-y': (
+			responsive: true,
+			property: padding-top padding-bottom,
+			class: py,
+			values:
+				map.merge(
+					variables.$indents-main,
+					(
+						'auto': auto,
+					)
+				),
+		),
+		'padding-top': (
+			responsive: true,
+			property: padding-top,
+			class: p-t,
+			values: variables.$indents-main,
+		),
+		'padding-right': (
+			responsive: true,
+			property: padding-right,
+			class: p-r,
+			values: variables.$indents-main,
+		),
+		'padding-bottom': (
+			responsive: true,
+			property: padding-bottom,
+			class: p-b,
+			values: variables.$indents-main,
+		),
+		'padding-left': (
+			responsive: true,
+			property: padding-left,
+			class: p-l,
+			values: variables.$indents-main,
+		),
+		// Gap utility
+		'gap':
+			(
+				responsive: true,
+				property: gap,
+				class: gap,
+				values:
+					map.merge(
+						variables.$indents-main,
+						(
+							'auto': auto,
+						)
+					),
+			),
+		'font-style': (
+			property: font-style,
+			class: fs,
+			values: italic normal,
+		),
+		'font-weight': (
+			property: font-weight,
+			class: fw,
+			values: (
+				200: 200,
+				300: 300,
+				400: 400,
+				500: 500,
+				600: 600,
+				700: 700,
+			),
+		),
+		'font-size': (
+			property: font-size,
+			class: text,
+			values: (
+				base: variables.$text-base,
+				xs: variables.$text-xs,
+				sm: variables.$text-sm,
+				md: variables.$text-md,
+				lg: variables.$text-lg,
+				xl: variables.$text-xl,
+				xxl: variables.$text-xxl,
+				button-sm: variables.$text-button-sm,
+				button-md: variables.$text-button-md,
+				button-lh: variables.$text-button-lg,
+				h1: variables.$text-h1,
+				h2: variables.$text-h2,
+				h3: variables.$text-h3,
+				h4: variables.$text-h4,
+				h5: variables.$text-h5,
+				h6: variables.$text-h6,
+				inherit: inherit,
+			),
+		),
+		'line-height': (
+			property: line-height,
+			class: lh,
+			values: (
+				1: 1,
+				base: variables.$line-height-base,
+				heading: variables.$line-height-heading,
+				small: variables.$line-height-small,
+			),
+		),
+		'text-align': (
+			property: text-align,
+			class: ta,
+			values: (
+				left: left,
+				right: right,
+				center: center,
+				justify: justify,
+			),
+		),
+		'text-decoration': (
+			property: text-decoration,
+			class: tt,
+			values: none underline line-through,
+		),
+		'text-transform': (
+			property: text-transform,
+			class: tt,
+			values: lowercase uppercase capitalize none,
+		),
+		'white-space': (
+			property: white-space,
+			class: whs,
+			values: (
+				wrap: normal,
+				nowrap: nowrap,
+				pre-line: pre-line,
+				pre-wrap: pre-wrap,
+			),
+		),
+		'word-wrap': (
+			property: word-wrap,
+			class: wow,
+			values: break-word normal break-all,
+		),
+		'color': (
+			property: color,
+			class: color,
+			values:
+				map.merge(
+					variables.$color-palette,
+					(
+						inherit: inherit,
+					)
+				),
+		),
+		'word-break': (
+			property: word-break,
+			class: wob,
+			values: keep-all break-all break-word normal,
+		),
+		'box-shadow': (
+			property: box-shadow,
+			class: box-shadow,
+			values: (
+				none: none,
+			),
+		),
+	),
+	$config
+);

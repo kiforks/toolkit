@@ -1,0 +1,21 @@
+@use '../variables';
+
+/*
+** Retina css
+** - - - - - - - - - - - - - - - - - - - - - - - - -
+** Example:
+** @include media-bg-image('path/@1-min.jpg', 'path/image@2-min.jpg');
+** - - - - - - - - - - - - - - - - - - - - - - - - -
+*/
+
+/* stylelint-disable media-query-no-invalid */
+@mixin media-bg-image($url, $url2x: false) {
+	background-image: url($url);
+	background-repeat: no-repeat;
+
+	@if $url2x {
+		@media (min-resolution: variables.$retina-dpi), (min-resolution: variables.$retina-dppx) {
+			background-image: url($url2x);
+		}
+	}
+}
