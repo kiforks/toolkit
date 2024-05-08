@@ -69,4 +69,4 @@ jobs:
           cache: 'npm'
       - run: npm install
       - uses: nrwl/nx-set-shas@v4
-      - run: nx run-many --target=build --all --configuration production --projects=ui,utilities --runner=cloud
+      - run: npx nx affected -t format:check stylelint lint test build --projects=ui,utilities --configuration production
