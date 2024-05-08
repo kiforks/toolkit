@@ -14,8 +14,6 @@ permissions:
 jobs:
   validation:
     runs-on: ubuntu-latest
-    env:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,4 +29,4 @@ jobs:
 
       - uses: nrwl/nx-set-shas@v4
 
-      - run: npx nx affected -t lint test build
+      - run: npx nx affected -t format:check stylelint lint test build

@@ -137,5 +137,13 @@
 		}
 	],
 	"defaultProject": "@kiforks/toolkit",
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "nx/tasks-runners/default",
+			"options": {
+				"cacheableOperations": ["build", "lint", "test", "e2e", "stylelint", "format"]
+			}
+		}
+	},
 	"nxCloudAccessToken": "{env:NX_CLOUD_ACCESS_TOKEN}"
 }
