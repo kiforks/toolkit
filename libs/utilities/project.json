@@ -4,7 +4,7 @@
 	"sourceRoot": "libs/utilities/src",
 	"prefix": "ks",
 	"projectType": "library",
-	"tags": ["scope:ui", "scope:utilities"],
+	"tags": ["scope:utilities"],
 	"targets": {
 		"build": {
 			"executor": "@nx/angular:package",
@@ -18,13 +18,13 @@
 		"lint": {
 			"executor": "@nx/eslint:lint",
 			"options": {
-				"lintFilePatterns": ["./**/*.{ts,html}", "./libs/**/*.json"]
+				"lintFilePatterns": ["./libs/utilities/**/*.{ts,html}", "./libs/utilities/**/*.json"]
 			}
 		},
 		"stylelint": {
 			"executor": "nx-stylelint:lint",
 			"options": {
-				"lintFilePatterns": ["./**/*.scss"]
+				"lintFilePatterns": ["./libs/utilities/**/*.scss"]
 			}
 		},
 		"test": {

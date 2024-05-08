@@ -1,36 +1,57 @@
-name: deploy
-
-on:
-  workflow_dispatch:
-    branches:
-      - main
-      - '!dependabot/**'
-
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: 'refs/heads/main'
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          cache: 'npm'
-          registry-url: 'https://registry.npmjs.org/'
-
-      - run: npm ci
-
-      - name: Move dist/libs contents to project root
-        run: |
-          mkdir -p dist_temp
-          cp -R dist/libs/* dist_temp/
-          mv dist_temp/* ./
-          rm -rf dist_temp
-
-      - name: Publish to npm
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+#name: deploy
+#
+#on:
+#  pull_request:
+#    types:
+#      - closed
+#    branches:
+#      - 'main'
+#
+#defaults:
+#  run:
+#    shell: bash
+#
+#
+#jobs:
+#  deploy:
+#    runs-on: pipeline
+#    if: github.event.pull_request.merged == true
+#    container:
+#      image: node:20
+#    steps:
+#      - name: Checkout 👀
+#        uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 1
+#      - name: Deploy 🚗
+#        run: |
+#          apt update
+#          apt install -y jq
+#          npm i
+#          npm run production
+#          sh/helpers/update-env-version-increment.sh
+#          echo "//npm.pkg.github.com/:_authToken=${CI_GITHUB_API_TOKEN}" >> dist/.npmrc
+#          echo "@tenantcloud:registry=https://npm.pkg.github.com" >> dist/.npmrc
+#          echo "always-auth=true" >> dist/.npmrc
+#          echo ".npmrc" > dist/.npmignore
+#          cd dist/
+#          npm publish
+#
+#jobs:
+#  publish:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          ref: 'refs/heads/main'
+#      - name: Setup Node.js
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: '20.x'
+#          cache: 'npm'
+#          registry-url: 'https://registry.npmjs.org/'
+#      - run: npm ci
+#      - name: Publish to npm
+#        run: npm publish
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

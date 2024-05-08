@@ -75,13 +75,13 @@
 		"lint": {
 			"executor": "@nx/eslint:lint",
 			"options": {
-				"lintFilePatterns": ["./**/*.{ts,html}", "./libs/**/*.json"]
+				"lintFilePatterns": ["./src/**/*.{ts,html}", "./src/**/*.json"]
 			}
 		},
 		"stylelint": {
 			"executor": "nx-stylelint:lint",
 			"options": {
-				"lintFilePatterns": ["./**/*.scss"]
+				"lintFilePatterns": ["./src/**/*.scss"]
 			}
 		},
 		"test": {
