@@ -137,5 +137,5 @@
 		}
 	],
 	"defaultProject": "@kiforks/toolkit",
-	"nxCloudAccessToken": "NDczOGJlOWItOWVkNy00NDVhLThmOTAtMjRhOGYyMDQwZTI2fHJlYWQtd3JpdGU="
+	"nxCloudAccessToken": "{env:NX_CLOUD_ACCESS_TOKEN}"
 }

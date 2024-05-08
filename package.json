@@ -15,6 +15,7 @@
 		"lint": "nx lint --quiet --fix",
 		"validate": "nx run-many -t format stylelint lint",
 		"prepare": "husky install",
+		"connect": "nx connect",
 		"migrate": "nx migrate latest && nx migrate @angular/core@latest && nx migrate --run-migrations --if-exists npm cache clean --force && npm install",
 		"update": "ncu -u && npm install"
 	},
