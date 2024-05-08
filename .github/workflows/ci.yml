@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  check-version:
+  version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
             else
             echo "Version in package.json ($CURRENT_VERSION) is higher than on the main branch ($MAIN_VERSION)."
             fi
-  check-changelog:
+  changelog:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -53,7 +53,7 @@ jobs:
           else
           echo "CHANGELOG.md has been updated for version $VERSION_IN_PACKAGE_JSON."
           fi
-  validation:
+  lint:
     runs-on: ubuntu-latest
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
@@ -67,4 +67,19 @@ jobs:
           cache: 'npm'
       - run: npm install
       - uses: nrwl/nx-set-shas@v4
-      - run: npx nx affected -t stylelint --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --parallel=6
+      - run: npx nx affected -t format:check stylelint lint --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui'
+  test:
+    runs-on: ubuntu-latest
+    env:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm install
+      - uses: nrwl/nx-set-shas@v4
+      - run: npx nx affected -t test build --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
