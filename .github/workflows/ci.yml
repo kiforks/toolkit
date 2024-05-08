@@ -20,12 +20,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Cache node_modules
       - uses: actions/setup-node@v3
         with:
           node-version: 20
           cache: 'npm'
-      - run: npm ci
+
+      - run: npm install
       - uses: nrwl/nx-set-shas@v4
 
       - run: git branch --track main origin/main
