@@ -63,10 +63,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
       - run: npm install
       - uses: nrwl/nx-set-shas@v4
-      - run: npx nx affected -t format:check stylelint lint test build
+      - run: nx run-many --target=build --all --configuration production --projects=ui,utilities --runner=cloud

@@ -8,7 +8,7 @@
 	"scripts": {
 		"start": "nx serve",
 		"build": "nx run-many --target=build",
-		"production": "nx run-many --target=build --all --configuration production",
+		"production": "nx run-many --target=build --all --configuration production --projects=ui,utilities",
 		"test": "nx test",
 		"format": "nx format:write",
 		"stylelint": "nx stylelint --fix",
