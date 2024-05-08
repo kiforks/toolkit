@@ -17,7 +17,7 @@
 @function breakpoint-next(
 	$name,
 	$grid-breakpoints: variables.$breakpoints,
-	$breakpoint-names: map.keys($grid-breakpoints)
+	$breakpoint-names: map-keys($grid-breakpoints)
 ) {
 	$n: list.index($breakpoint-names, $name);
 
