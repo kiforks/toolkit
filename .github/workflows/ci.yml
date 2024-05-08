@@ -20,9 +20,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: echo $NX_CLOUD_ACCESS_TOKEN
-      - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="build"
-
       # Cache node_modules
       - uses: actions/setup-node@v3
         with:
@@ -34,5 +31,5 @@ jobs:
       - run: git branch --track main origin/main
         if: ${{ github.event_name == 'pull_request' }}
 
-      - run: npx nx-cloud record -- nx format:check
-      - run: npx nx affected -t lint stylelint test build
+      - run: nx format:check
+      - run: nx affected -t lint stylelint test build
