@@ -67,4 +67,4 @@ jobs:
           cache: 'npm'
       - run: npm install
       - uses: nrwl/nx-set-shas@v4
-      - run: npx nx affected -t format:check stylelint lint test build
+      - run: npx nx affected -t format:check stylelint lint test build --base=main --head=HEAD --exclude='*,!scope:app' --nxBail=true --parallel=5
