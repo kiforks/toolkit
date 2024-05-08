@@ -4,7 +4,7 @@
 	"sourceRoot": "libs/ui/src",
 	"prefix": "ks",
 	"projectType": "library",
-	"tags": ["scope:ui"],
+	"tags": ["scope:ui", "scope:lib"],
 	"targets": {
 		"build": {
 			"executor": "@nx/angular:package",
