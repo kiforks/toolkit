@@ -16,8 +16,7 @@ import { KS_MEDIA_CONFIG_TOKEN } from '../../tokens/media.token';
 /**
  * Service for handling media-min queries via breakpoints.
  */
-@Injectable({ providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class KsMediaService {
 	private readonly breakpointObserver = inject(BreakpointObserver);
 	private readonly config: KsMediaConfig = {
