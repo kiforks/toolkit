@@ -14,6 +14,25 @@
 				"tsConfig": "tsconfig.lib.json"
 			},
 			"defaultConfiguration": "production"
+		},
+		"lint": {
+			"executor": "@nx/eslint:lint",
+			"options": {
+				"lintFilePatterns": ["./libs/utilities/**/*.{ts,html}", "./libs/utilities/**/*.json"]
+			}
+		},
+		"stylelint": {
+			"executor": "nx-stylelint:lint",
+			"options": {
+				"lintFilePatterns": ["./libs/utilities/**/*.scss"]
+			}
+		},
+		"test": {
+			"executor": "@nx/jest:jest",
+			"outputs": ["{workspaceRoot}/coverage/{projectName}"],
+			"options": {
+				"jestConfig": "jest.config.ts"
+			}
 		}
 	}
 }
