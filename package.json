@@ -7,7 +7,7 @@
 	],
 	"scripts": {
 		"start": "nx serve",
-		"build": "nx run-many --target=build",
+		"build": "nx run-many --target=build --runner=local",
 		"production": "nx run-many --target=build --all --configuration production --projects=ui,utilities",
 		"test": "nx test",
 		"format": "nx format:write",
