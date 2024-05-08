@@ -1,9 +1,11 @@
+@use 'sass:map';
+@use 'sass:meta';
 @use '../media/index' as media;
 @use 'mixins/index' as mixins;
 @use 'variables/index' as variables;
 
 // Loop over each breakpoint
-@each $breakpoint in map-keys(media.$breakpoints) {
+@each $breakpoint in map.keys(media.$breakpoints) {
 	// Generate media query if needed
 	@include media.media-min($breakpoint) {
 		$infix: media.breakpoint-infix($breakpoint, media.$breakpoints);
@@ -12,7 +14,7 @@
 		@each $key, $item in variables.$config-main {
 			// The utility can be disabled with `false`, thus check if the utility is a map first
 			// Only proceed if responsive media queries are enabled or if it's the base media query
-			@if type-of($item) == 'map' and (map-get($item, responsive) or $infix == '') {
+			@if meta.type-of($item) == 'map' and (map.get($item, responsive) or $infix == '') {
 				@include mixins.generate-entities($item, $infix);
 			}
 		}

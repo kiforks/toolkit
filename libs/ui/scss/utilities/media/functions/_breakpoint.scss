@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../variables';
 @use 'sass:list';
 @use 'sass:map';
@@ -17,7 +18,7 @@
 @function breakpoint-next(
 	$name,
 	$grid-breakpoints: variables.$breakpoints,
-	$breakpoint-names: map-keys($grid-breakpoints)
+	$breakpoint-names: map.keys($grid-breakpoints)
 ) {
 	$n: list.index($breakpoint-names, $name);
 
@@ -25,7 +26,7 @@
 		@error "breakpoint `#{$name}` not found in `#{$grid-breakpoints}`";
 	}
 
-	@return if($n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+	@return if($n < list.length($breakpoint-names), list.nth($breakpoint-names, $n + 1), null);
 }
 
 // Minimum breakpoint width. Null for the smallest (first) breakpoint.
