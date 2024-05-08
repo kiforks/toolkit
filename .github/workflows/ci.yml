@@ -20,6 +20,7 @@ jobs:
         with:
           fetch-depth: 0
 
+      - run: echo $NX_CLOUD_ACCESS_TOKEN
       - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="build"
 
       # Cache node_modules
