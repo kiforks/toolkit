@@ -67,6 +67,7 @@ jobs:
           cache: 'npm'
       - run: npm install
       - uses: nrwl/nx-set-shas@v4
+      - run: npx nx affected -t stylelint lint --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui'
   format:
     runs-on: ubuntu-latest
     env:
@@ -81,7 +82,7 @@ jobs:
           cache: 'npm'
       - run: npm install
       - uses: nrwl/nx-set-shas@v4
-      - run: npx nx format:check --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui'
+      - run: npx nx affected format:check --base=origin/main --head=HEAD --projects ui utilities
   build:
     runs-on: ubuntu-latest
     env:
