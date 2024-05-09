@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const semver = require('semver');
 
 // Check if it is GitHub Actions environment
 if (process.env.CI !== 'true') {
@@ -9,62 +10,59 @@ if (process.env.CI !== 'true') {
 	process.exit(0);
 }
 
-// Function for reading and processing peerDependencies from package.json file
-function readPeerDependencies(packageJsonPath) {
-	try {
-		const packageJson = require(packageJsonPath);
-		return packageJson.peerDependencies || {};
-	} catch (error) {
-		console.error(`Error reading ${packageJsonPath}:`, error);
-		return {};
-	}
-}
-
-// Function for merging peerDependencies from different libraries
-function mergePeerDependencies(existingDeps, newDeps) {
-	for (const [dep, version] of Object.entries(newDeps)) {
-		if (!Object.prototype.hasOwnProperty.call(existingDeps, dep)) {
-			existingDeps[dep] = version;
-		}
-	}
-}
-
-// Function for recursively searching for the package.json file in a directory and its subdirectories
-function findPackageJson(dir) {
-	const files = fs.readdirSync(dir);
-	for (const file of files) {
-		const filePath = path.join(dir, file);
-
-		if (file === 'package.json') {
-			return filePath;
-		}
-	}
-	return null;
-}
-
-// Main function for processing the libs folder and its subfolders
-function processLibsFolder(libsDir, rootPackageJsonPath) {
-	const rootPeerDependencies = readPeerDependencies(rootPackageJsonPath);
-
-	const libs = fs.readdirSync(libsDir);
-	for (const lib of libs) {
-		const libPath = path.join(libsDir, lib);
-		const packageJsonPath = findPackageJson(libPath);
-		if (packageJsonPath) {
-			const peerDependencies = readPeerDependencies(packageJsonPath);
-			mergePeerDependencies(rootPeerDependencies, peerDependencies);
-		} else {
-			console.warn(`package.json not found in ${libPath}`);
-		}
-	}
-
-	// Saving changes to the root package.json
-	const rootPackageJson = require(rootPackageJsonPath);
-	rootPackageJson.peerDependencies = rootPeerDependencies;
-	fs.writeFileSync(rootPackageJsonPath, JSON.stringify(rootPackageJson, null, 2));
-}
-
-// Call the main function to process the libs folder and its subfolders
-const libsDir = path.join(__dirname, '..', '..', '..', 'libs');
+// Path to the root package.json file
 const rootPackageJsonPath = path.join(__dirname, '..', '..', '..', 'package.json');
-processLibsFolder(libsDir, rootPackageJsonPath);
+
+// Load the root package.json
+let rootPackageJson = JSON.parse(fs.readFileSync(rootPackageJsonPath, 'utf8'));
+
+// Check and initialize the peerDependencies section in the root file
+if (!rootPackageJson.peerDependencies) {
+	rootPackageJson.peerDependencies = {};
+}
+
+// Function to get the lowest version from a range
+function getLowerVersion(range) {
+	try {
+		const version = semver.minVersion(range);
+		return version ? version.version : null;
+	} catch (error) {
+		return null;
+	}
+}
+
+// Function to merge peerDependencies from library files
+function mergePeerDependencies(dependencies) {
+	for (const [dependency, newVersion] of Object.entries(dependencies)) {
+		const existingVersion = rootPackageJson.peerDependencies[dependency];
+		const newLowerVersion = getLowerVersion(newVersion);
+		const existingLowerVersion = getLowerVersion(existingVersion);
+
+		if (!existingLowerVersion || (newLowerVersion && semver.gt(newLowerVersion, existingLowerVersion))) {
+			rootPackageJson.peerDependencies[dependency] = newVersion;
+		}
+	}
+}
+
+// Search all libraries in the libs folder
+const libsPath = path.join(__dirname, '..', '..', '..', 'libs');
+const libraries = fs.readdirSync(libsPath);
+
+for (const lib of libraries) {
+	const packageJsonPath = path.join(libsPath, lib, 'package.json');
+
+	// Check the existence of a package.json file in the library
+	if (fs.existsSync(packageJsonPath)) {
+		const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+
+		// Merge peerDependencies if present
+		if (packageJson.peerDependencies) {
+			mergePeerDependencies(packageJson.peerDependencies);
+		}
+	}
+}
+
+// Write changes to the root package.json file
+fs.writeFileSync(rootPackageJsonPath, JSON.stringify(rootPackageJson, null, 2));
+
+console.log('Root package.json successfully updated with unique peerDependencies!');
