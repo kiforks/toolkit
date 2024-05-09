@@ -1,6 +1,6 @@
 {
 	"name": "@kiforks/toolkit",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"license": "MIT",
 	"scripts": {
 		"start": "nx serve --runner=local",
