@@ -3,7 +3,7 @@
 	"$schema": "node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
 	"sourceRoot": "./src",
-	"tags": ["scope:app"],
+	"tags": ["type:app", "scope:app"],
 	"targets": {
 		"build": {
 			"executor": "@nx/angular:browser-esbuild",
