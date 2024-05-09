@@ -1,53 +1,46 @@
 /** Dependencies */
 @import 'modularscale-sass/stylesheets/modularscale';
-@import 'mathsass-library/mathsass/math';
 
 /**
  * Typography variables
  * - - - - - - - - - - - - - - - - - - - - - - - - -
  * Description:
- * Typography standardized font parameters
+ * Standardized font parameters for typography.
  *
- * The first thing you’ll want to do when you start using modular scale is configure it to meet your needs. This is done in the $modularscale map.
+ * The first thing you should do when starting to use modular scale is configure it to your needs. This is done in the `$modularscale` map.
  * Example:
  * @use 'your-path/to/typography' with (
  *  $modularscale: (
- *		base: 1em,
- *	  ratio: 1.5
- *	);
+ *    base: 1em,
+ *    ratio: 1.5
+ *  );
  * );
  *
  * More info: https://github.com/modularscale/modularscale-sass
  */
 
-/** Modular scale dependence **/
 /* stylelint-disable scss/dollar-variable-default, function-no-unknown */
-$text-base: 14px !default;
-$ms-base: 1rem;
-$ms-ratio: $major-second; /* 1.125 */
+$text-base: 14px !default; // Base font size
+$ms-base: 1rem; // Base scale for modular scale
+$ms-ratio: $major-second; // Ratio for modular scale (1.125)
 
-/** Font size **/
-$text-xs: ms(-2.5) !default; /* 10px */
-$text-sm: ms(-1) !default; /* 12px */
-$text-md: ms(0) !default; /* 14px */
-$text-lg: ms(1) !default; /* 16px */
-$text-xl: ms(2) !default; /* 18px */
-$text-xxl: ms(3) !default; /* 20px */
+/** Font sizes **/
+$text-xs: ms(-3) !default; // Three steps down from base size (~10px)
+$text-sm: ms(-1) !default; // One step down from base size (~12px)
+$text-md: ms(0) !default; // Base font size ($text-base = 14px)
+$text-lg: ms(1) !default; // One step up from base size (~16px)
+$text-xl: ms(2) !default; // Two steps up from base size (~18px)
+$text-xxl: ms(3) !default; // Three steps up from base size (~20px)
 
-/* Heading */
-$text-h6: ms(4) !default; /* 22px */
-$text-h5: ms(5) !default; /* 25px */
-$text-h4: ms(6) !default; /* 28px */
-$text-h3: ms(7) !default; /* 32px */
-$text-h2: ms(8) !default; /* 36px */
-$text-h1: ms(9) !default; /* 40px */
+/** Heading sizes **/
+$text-h6: ms(4) !default; // Four steps up from base size (~22px)
+$text-h5: ms(5) !default; // Five steps up (~25px)
+$text-h4: ms(6) !default; // Six steps up (~28px)
+$text-h3: ms(7) !default; // Seven steps up (~32px)
+$text-h2: ms(8) !default; // Eight steps up (~36px)
+$text-h1: ms(9) !default; // Nine steps up (~40px)
 
-/* Buttons */
-$text-button-sm: $text-sm !default; /* 12px */
-$text-button-md: $text-md !default; /* 14px */
-$text-button-lg: $text-lg !default; /* 16px */
-
-/** Line height **/
-$line-height-base: 1.5 !default;
-$line-height-heading: $ms-ratio !default; /* Major-second - 1.125 */
-$line-height-small: 1 !default;
+/** Line heights **/
+$line-height-base: 1.5 !default; // Default line height
+$line-height-heading: $ms-ratio !default; // Major-second ratio (1.125)
+$line-height-small: 1 !default; // Small line height

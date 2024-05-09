@@ -4,7 +4,7 @@
 	"sourceRoot": "libs/utilities/src",
 	"prefix": "ks",
 	"projectType": "library",
-	"tags": ["scope:utilities"],
+	"tags": ["type:lib", "scope:utilities"],
 	"targets": {
 		"build": {
 			"executor": "@nx/angular:package",

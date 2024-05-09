@@ -1,5 +1,5 @@
 import { Directive, effect, input, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Breakpoint } from '@kiforks/utilities';
+import { Breakpoint } from '@kiforks/core';
 import { SubSink } from 'subsink';
 
 import { KsMediaService } from '../../services';

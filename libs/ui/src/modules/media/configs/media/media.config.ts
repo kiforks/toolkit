@@ -1,4 +1,4 @@
-import { Breakpoint } from '@kiforks/utilities';
+import { Breakpoint } from '@kiforks/core';
 
 import { KsMediaBreakpoint, MediaBreakpoints } from '../../interfaces';
 
