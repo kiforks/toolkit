@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    name: "Continuous Deployment"
+    name: 'Continuous Deployment'
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     env:
@@ -32,8 +32,8 @@ jobs:
       - name: Set SHAs for NX
         uses: nrwl/nx-set-shas@v4
       - name: Build Project
-        run: npx nx affected -t build --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
+        run: npm run production
       - name: Move Files to Root
-        run: mv dist/libs/* dist/ && rm -rf dist/libs
+        run: mv dist/libs/* / && rm -rf dist
       - name: Publish to npm
         run: npm publish --access public

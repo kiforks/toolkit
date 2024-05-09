@@ -5,7 +5,7 @@
 	"scripts": {
 		"start": "nx serve --runner=local",
 		"build": "nx run-many --target=build --runner=local",
-		"production": "nx run-many --target=build --configuration production --runner=local",
+		"production": "nx run-many --target=build --configuration production --projects=ui,utilities --runner=local",
 		"test": "nx run-many --target=test --runner=local",
 		"format": "nx format:write --runner=local",
 		"stylelint": "nx run-many --target=stylelint --fix --runner=local",
