@@ -5,7 +5,7 @@ import { KS_MEDIA_CONFIG } from '../../configs/media/media.config';
  */
 export abstract class MediaHelper {
 	/**
-	 * Returns a media-min query string for maximum width.
+	 * Returns a media-min query string for maximum width
 	 * @param breakpoint The breakpoint value in pixels.
 	 * @returns A media-min query string.
 	 * @example
