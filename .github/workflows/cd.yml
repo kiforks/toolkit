@@ -9,13 +9,15 @@ on:
 
 jobs:
   deploy:
+    name: "Continuous Deployment"
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
           ref: 'refs/heads/main'
           fetch-depth: 0
@@ -25,11 +27,13 @@ jobs:
           node-version: '20.x'
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org/'
+      - name: Install Dependencies
         run: npm install
-      - name: Build the project
+      - name: Set SHAs for NX
         uses: nrwl/nx-set-shas@v4
+      - name: Build Project
         run: npx nx affected -t build --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
-      - name: Move files from a nested folder "dist/libs" to the root "./" one
+      - name: Move Files to Root
         run: mv dist/libs/* dist/ && rm -rf dist/libs
       - name: Publish to npm
-        run: npm run publish --access public
+        run: npm publish --access public
