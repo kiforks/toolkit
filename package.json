@@ -1,10 +1,7 @@
 {
 	"name": "@kiforks/toolkit",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"license": "MIT",
-	"files": [
-		"dits/libs/**/*"
-	],
 	"scripts": {
 		"start": "nx serve --runner=local",
 		"build": "nx run-many --target=build --runner=local",
