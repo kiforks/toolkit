@@ -10,18 +10,18 @@ if (process.env.CI !== 'true') {
 	process.exit(0);
 }
 
-// Шлях до кореневого package.json файлу
+// Path to the root package.json file
 const rootPackageJsonPath = path.join(__dirname, '..', '..', '..', 'package.json');
 
-// Завантаження кореневого package.json
+// Load the root package.json
 let rootPackageJson = JSON.parse(fs.readFileSync(rootPackageJsonPath, 'utf8'));
 
-// Перевірка та ініціалізація секції peerDependencies у кореневому файлі
+// Check and initialize the peerDependencies section in the root file
 if (!rootPackageJson.peerDependencies) {
 	rootPackageJson.peerDependencies = {};
 }
 
-// Функція для отримання найнижчої версії з діапазону
+// Function to get the lowest version from a range
 function getLowerVersion(range) {
 	try {
 		const version = semver.minVersion(range);
@@ -31,7 +31,7 @@ function getLowerVersion(range) {
 	}
 }
 
-// Функція для об'єднання peerDependencies з бібліотечних файлів
+// Function to merge peerDependencies from library files
 function mergePeerDependencies(dependencies) {
 	for (const [dependency, newVersion] of Object.entries(dependencies)) {
 		const existingVersion = rootPackageJson.peerDependencies[dependency];
@@ -44,25 +44,25 @@ function mergePeerDependencies(dependencies) {
 	}
 }
 
-// Пошук усіх бібліотек у папці libs
+// Search all libraries in the libs folder
 const libsPath = path.join(__dirname, '..', '..', '..', 'libs');
 const libraries = fs.readdirSync(libsPath);
 
 for (const lib of libraries) {
 	const packageJsonPath = path.join(libsPath, lib, 'package.json');
 
-	// Перевірка існування файлу package.json у бібліотеці
+	// Check the existence of a package.json file in the library
 	if (fs.existsSync(packageJsonPath)) {
 		const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
-		// Об'єднання peerDependencies, якщо вони присутні
+		// Merge peerDependencies if present
 		if (packageJson.peerDependencies) {
 			mergePeerDependencies(packageJson.peerDependencies);
 		}
 	}
 }
 
-// Запис змін до кореневого файлу package.json
+// Write changes to the root package.json file
 fs.writeFileSync(rootPackageJsonPath, JSON.stringify(rootPackageJson, null, 2));
 
-console.log('Кореневий package.json успішно оновлено з унікальними peerDependencies!');
+console.log('Root package.json successfully updated with unique peerDependencies!');
