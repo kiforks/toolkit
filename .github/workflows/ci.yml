@@ -15,7 +15,7 @@ env:
 
 jobs:
   version:
-    name: "Check Version Increment"
+    name: "Check version increment"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
             echo "Version in package.json ($CURRENT_VERSION) is higher than on the main branch ($MAIN_VERSION)."
           fi
   changelog:
-    name: "Check Changelog Update"
+    name: "Check changelog update"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -60,7 +60,7 @@ jobs:
             echo "CHANGELOG.md has been updated for version $VERSION_IN_PACKAGE_JSON."
           fi
   lint:
-    name: "Lint Codebase"
+    name: "Lint codebase"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -75,10 +75,10 @@ jobs:
         run: npm install
       - name: Set SHAs for NX
         uses: nrwl/nx-set-shas@v4
-      - name: Run Stylelint and Lint
+      - name: Run Stylelint and ESLint
         run: npx nx affected -t stylelint lint --base=origin/main --head=HEAD --exclude='*,!scope:ui,!scope:utilities'
   format:
-    name: "Check Code Formatting"
+    name: "Check code formatting"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -113,7 +113,7 @@ jobs:
       - name: Run the building...
         run: npx nx affected -t build --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
   test:
-    name: "Unit/Integration/UI tests"
+    name: "Unit/integration/UI tests"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
