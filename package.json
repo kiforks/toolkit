@@ -17,8 +17,8 @@
 		"update": "ncu -u && npm install",
 		"ci-build": "npx nx affected -t build --base=origin/main --head=HEAD --exclude='*,!type:lib' --configuration=production",
 		"ci-test": "npx nx affected -t test --base=origin/main --head=HEAD --exclude='*,!type:lib' --configuration=production",
-		"ci-format": "npx nx format:check --base=origin/main --head=HEAD --projects=tag:type:lib",
-		"ci-lint": "npx nx affected -t stylelint lint --base=origin/main --head=HEAD --exclude=@kiforks/toolkit"
+		"ci-format": "npx nx format:check --base=origin/main --head=HEAD --exclude=@kiforks/toolkit",
+		"ci-lint": "npx nx affected -t stylelint lint --base=origin/main --head=HEAD --exclude='*,!type:lib'"
 	},
 	"devDependencies": {
 		"@angular-devkit/build-angular": "~17.3.7",
