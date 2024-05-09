@@ -18,8 +18,6 @@ export class KsMediaServiceMock
 	private readonly _mediaOnly = new BehaviorSubject(false);
 
 	public get mediaMobile(): Observable<boolean> {
-		console.log(1);
-
 		return this._mediaMobile;
 	}
 
