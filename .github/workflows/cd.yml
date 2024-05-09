@@ -20,16 +20,16 @@ jobs:
           ref: 'refs/heads/main'
           fetch-depth: 0
       - name: Setup Node.js
-      - uses: actions/setup-node@v4
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org/'
-      - run: npm install
+        run: npm install
       - name: Build the project
-      - uses: nrwl/nx-set-shas@v4
-      - run: npx nx affected -t build --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
+        uses: nrwl/nx-set-shas@v4
+        run: npx nx affected -t build --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
       - name: Move files from a nested folder "dist/libs" to the root "./" one
-      - run: mv dist/libs/* dist/ && rm -rf dist/libs
+        run: mv dist/libs/* dist/ && rm -rf dist/libs
       - name: Publish to npm
-      - run: npm run publish --access public
+        run: npm run publish --access public
