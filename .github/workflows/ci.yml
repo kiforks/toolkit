@@ -62,13 +62,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup Node.js
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
       - run: npm install
-      - name: Run ESLing and Stylelint
       - uses: nrwl/nx-set-shas@v4
       - run: npx nx affected -t stylelint lint --base=origin/main --head=HEAD --exclude='*,!scope:ui,!scope:utilities'
   format:
@@ -79,13 +77,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup Node.js
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
       - run: npm install
-      - name: Run prettier
       - uses: nrwl/nx-set-shas@v4
       - run: npx nx format:check --base=origin/main --head=HEAD --projects ui utilities
   build:
@@ -96,29 +92,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup Node.js
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
       - run: npm install
-      - name: Build projects
       - uses: nrwl/nx-set-shas@v4
-      - run: npx nx affected -t build --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
-  test:
-    runs-on: ubuntu-latest
-    env:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Node.js
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-      - run: npm install
-      - name: Run tests
-      - uses: nrwl/nx-set-shas@v4
-      - run: npx nx affected -t test --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
+      - run: npx nx affected -t build test --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
