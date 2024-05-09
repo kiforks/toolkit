@@ -41,7 +41,7 @@ jobs:
           node node/scripts/ci/update-peer-deps.js
       - name: Move Files to Project Root
         run: |
-          cp -r dist/libs/* .
+          cp -r dist/libs/* ./
           rm -rf dist
       - name: Publish to npm
         run: npm publish --access public
