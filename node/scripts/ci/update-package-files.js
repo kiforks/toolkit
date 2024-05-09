@@ -20,7 +20,7 @@ fs.readdir(libsPath, { withFileTypes: true }, (err, entries) => {
 	}
 
 	// Filter to include only directories
-	const folders = entries.filter(entry => entry.isDirectory()).map(dir => `libs/${dir.name}/**/*`);
+	const folders = entries.filter(entry => entry.isDirectory()).map(dir => `${dir.name}/**/*`);
 
 	// Read the package.json file
 	const packageJsonPath = path.join(__dirname, '..', '..', '..', 'package.json');
