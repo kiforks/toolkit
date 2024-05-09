@@ -15,7 +15,7 @@ env:
 
 jobs:
   version:
-    name: "Check version increment"
+    name: 'Check version increment'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
             echo "Version in package.json ($CURRENT_VERSION) is higher than on the main branch ($MAIN_VERSION)."
           fi
   changelog:
-    name: "Check changelog update"
+    name: 'Check changelog update'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -60,7 +60,7 @@ jobs:
             echo "CHANGELOG.md has been updated for version $VERSION_IN_PACKAGE_JSON."
           fi
   lint:
-    name: "Lint codebase"
+    name: 'Lint codebase'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -76,9 +76,9 @@ jobs:
       - name: Set SHAs for NX
         uses: nrwl/nx-set-shas@v4
       - name: Run Stylelint and ESLint
-        run: npx nx affected -t stylelint lint --base=origin/main --head=HEAD --exclude='*,!scope:ui,!scope:utilities'
+        run: npm run ci-lint
   format:
-    name: "Check code formatting"
+    name: 'Check code formatting'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -94,9 +94,9 @@ jobs:
       - name: Set SHAs for NX
         uses: nrwl/nx-set-shas@v4
       - name: Run Format Check
-        run: npx nx format:check --base=origin/main --head=HEAD --projects ui utilities
+        run: npm run ci-format
   build:
-    name: "Build project"
+    name: 'Build project'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -111,9 +111,9 @@ jobs:
       - name: Set SHAs for NX
         uses: nrwl/nx-set-shas@v4
       - name: Run the building...
-        run: npx nx affected -t build --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
+        run: npm run ci-build
   test:
-    name: "Unit/integration/UI tests"
+    name: 'Unit/integration/UI tests'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -128,4 +128,4 @@ jobs:
       - name: Set SHAs for NX
         uses: nrwl/nx-set-shas@v4
       - name: Run tests
-        run: npx nx affected -t test --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
+        run: npm run ci-test

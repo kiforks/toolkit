@@ -1,16 +1,16 @@
 {
-	"name": "ui",
+	"name": "core",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "libs/ui/src",
+	"sourceRoot": "libs/core/src",
 	"prefix": "ks",
 	"projectType": "library",
-	"tags": ["type:lib", "scope:ui"],
+	"tags": ["type:lib", "scope:core"],
 	"targets": {
 		"build": {
 			"executor": "@nx/angular:package",
 			"outputs": ["{workspaceRoot}/dist/{projectRoot}"],
 			"options": {
-				"project": "libs/ui/ng-package.json",
+				"project": "libs/core/ng-package.json",
 				"tsConfig": "tsconfig.lib.json"
 			},
 			"defaultConfiguration": "production"
@@ -18,13 +18,13 @@
 		"lint": {
 			"executor": "@nx/eslint:lint",
 			"options": {
-				"lintFilePatterns": ["./libs/ui/**/*.{ts,html}", "./libs/ui/**/*.json"]
+				"lintFilePatterns": ["./libs/core/**/*.{ts,html}", "./libs/core/**/*.json"]
 			}
 		},
 		"stylelint": {
 			"executor": "nx-stylelint:lint",
 			"options": {
-				"lintFilePatterns": ["./libs/ui/**/*.scss"]
+				"lintFilePatterns": ["./libs/core/**/*.scss"]
 			}
 		},
 		"test": {

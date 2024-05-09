@@ -1,4 +1,4 @@
-import { Breakpoint } from '@kiforks/utilities';
+import { Breakpoint } from '@kiforks/core';
 
 /*
  * For min-width no media-min query necessary for xs breakpoint as it's effectively `@media-min (min-width: 0) { ... }`

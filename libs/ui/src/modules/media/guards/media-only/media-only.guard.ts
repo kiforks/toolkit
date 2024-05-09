@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CanActivateFn } from '@angular/router';
-import { Breakpoint } from '@kiforks/utilities';
+import { Breakpoint } from '@kiforks/core';
 
 import { KsMediaService } from '../../services';
 

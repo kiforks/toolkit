@@ -1,4 +1,5 @@
-import { Bind, Breakpoint } from '@kiforks/utilities';
+import { Breakpoint } from '@kiforks/core';
+import { Bind } from '@kiforks/utilities';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { KsMediaService } from '../services';

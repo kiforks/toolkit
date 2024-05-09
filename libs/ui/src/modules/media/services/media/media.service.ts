@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Bind, Breakpoint } from '@kiforks/utilities';
+import { Breakpoint } from '@kiforks/core';
+import { Bind } from '@kiforks/utilities';
 import { indexOf } from 'lodash';
 import { map, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -34,7 +35,7 @@ export class KsMediaService {
 		return this.mediaMax(this.config.deviceBreakpoint);
 	}
 
-	/*
+	/**
 	 * Media of desktop screen maximum breakpoint width.
 	 * No query for the smallest breakpoint.
 	 * Makes the content apply to the given breakpoint and wider.
@@ -43,7 +44,7 @@ export class KsMediaService {
 		return this.mediaMin(this.config.deviceBreakpoint);
 	}
 
-	/*
+	/**
 	 * Media of at least the minimum breakpoint width.
 	 * No query for the smallest breakpoint
 	 * Is matched apply to the given breakpoint and wider.
@@ -52,7 +53,7 @@ export class KsMediaService {
 		return this.getBreakpointValue(breakpoint, 'min');
 	}
 
-	/*
+	/**
 	 * Media of at most the maximum breakpoint width.
 	 * No query for the largest breakpoint.
 	 * Is matched apply to the given breakpoint and narrower.
@@ -61,7 +62,7 @@ export class KsMediaService {
 		return this.getBreakpointValue(breakpoint);
 	}
 
-	/*
+	/**
 	 * Media that spans multiple breakpoint widths.
 	 * Is matched apply between the min and max breakpoints.
 	 */
@@ -72,7 +73,7 @@ export class KsMediaService {
 		return this.getBreakpointsBetween(breakpointMin, breakpointMax);
 	}
 
-	/*
+	/**
 	 * Media between the breakpoints minimum and maximum widths.
 	 * No minimum for the smallest breakpoint, and no maximum for the largest one.
 	 * Is matched apply only to the given breakpoint, not viewports any wider or narrower.
