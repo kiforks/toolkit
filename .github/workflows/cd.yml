@@ -33,15 +33,15 @@ jobs:
         uses: nrwl/nx-set-shas@v4
       - name: Build Project
         run: npm run production
-      - name: Move Files to Project Root
-        run: |
-          cp -r dist/libs/* .
-          rm -rf dist
       - name: Updating the list of required files for publishing libraries in the "package.json" file
         run: |
           node node/scripts/ci/update-package-files.js
       - name: Updating the list of required "peerDependencies" for publishing libraries in the "package.json" file
         run: |
           node node/scripts/ci/update-peer-deps.js
+      - name: Move Files to Project Root
+        run: |
+          cp -r dist/libs/* .
+          rm -rf dist
       - name: Publish to npm
         run: npm publish --access public
