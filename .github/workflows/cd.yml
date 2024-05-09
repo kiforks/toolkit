@@ -42,7 +42,9 @@ jobs:
           node node/scripts/ci/update-package-files.js
       - name: Move Files to Project Root
         run: |
-          rsync -av --remove-source-files dist/libs/ ./
+          for file in dist/libs/*; do
+            mv "$file" ./
+          done
           rm -rf dist
       - name: Publish to npm
         run: npm publish --access public
