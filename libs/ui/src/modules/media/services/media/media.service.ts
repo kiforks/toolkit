@@ -14,7 +14,7 @@ import { KsMediaBetweenBreakpoints, KsMediaBreakpoint, KsMediaConfig } from '../
 import { KS_MEDIA_CONFIG_TOKEN } from '../../tokens/media.token';
 
 /**
- * Service for handling media-min queries via breakpoints
+ * Service for handling media-min queries via breakpoints.
  */
 @Injectable({ providedIn: 'root' })
 export class KsMediaService {
