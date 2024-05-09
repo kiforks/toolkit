@@ -7,43 +7,43 @@ on:
     branches:
       - 'main'
 
+env:
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
 jobs:
   deploy:
+    name: 'Continuous Deployment'
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
+        with:
+          ref: 'refs/heads/main'
+          fetch-depth: 0
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org/'
-
       - name: Install Dependencies
         run: npm install
-
+      - name: Set SHAs for NX
+        uses: nrwl/nx-set-shas@v4
       - name: Build Project
         run: npm run production
-
-      - name: Archive Production Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: production-artifacts
-          path: dist/libs/*
-
-      - name: Cleanup Dist Directory
-        run: rm -rf dist
-
-      - name: Download Artifacts to Root
-        uses: actions/download-artifact@v2
-        with:
-          name: production-artifacts
-          path: ./
-
+      - name: Updating the list of required "peerDependencies" for publishing libraries in the "package.json" file
+        run: |
+          node node/scripts/ci/update-peer-deps.js
+      - name: Updating the list of required files for publishing libraries in the "package.json" file
+        run: |
+          node node/scripts/ci/update-package-files.js
+      - name: Move Files to Project Root
+        run: |
+          rsync -av --remove-source-files dist/libs/ ./
+          rm -rf dist
       - name: Publish to npm
         run: npm publish --access public
         env:
