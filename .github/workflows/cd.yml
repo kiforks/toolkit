@@ -41,7 +41,8 @@ jobs:
           node node/scripts/ci/update-package-files.js
       - name: Move Files to Project Root
         run: |
-          run: bash sh/scripts/ci/move_files.sh
-          rm -rf dist
+          shopt -s dotglob
+          mv dist/libs/* ./
+          rm -rf dist/libs
       - name: Publish to npm
         run: npm publish --access public
