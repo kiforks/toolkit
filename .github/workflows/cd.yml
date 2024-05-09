@@ -42,6 +42,6 @@ jobs:
           node node/scripts/ci/update-package-files.js
       - name: Updating the list of required "peerDependencies" for publishing libraries in the "package.json" file
         run: |
-          node node/scripts/ci/update-package-files.js
+          node node/scripts/ci/update-peer-deeps.js
       - name: Publish to npm
         run: npm publish --access public

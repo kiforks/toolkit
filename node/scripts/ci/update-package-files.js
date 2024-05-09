@@ -35,6 +35,10 @@ fs.readdir(libsPath, { withFileTypes: true }, (err, entries) => {
 		// Update the files field
 		packageJson.files = folders;
 
+		delete packageJson.devDependencies;
+		delete packageJson.scripts;
+		delete packageJson.nx;
+
 		// Write the modified package.json back to the file
 		fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf8', err => {
 			if (err) {
