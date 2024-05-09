@@ -10,6 +10,9 @@ permissions:
   actions: read
   contents: read
 
+env:
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
 jobs:
   version:
     runs-on: ubuntu-latest
@@ -56,8 +59,6 @@ jobs:
           fi
   lint:
     runs-on: ubuntu-latest
-    env:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -71,8 +72,6 @@ jobs:
       - run: npx nx affected -t stylelint lint --base=origin/main --head=HEAD --exclude='*,!scope:ui,!scope:utilities'
   format:
     runs-on: ubuntu-latest
-    env:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -86,8 +85,6 @@ jobs:
       - run: npx nx format:check --base=origin/main --head=HEAD --projects ui utilities
   build:
     runs-on: ubuntu-latest
-    env:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -101,8 +98,6 @@ jobs:
       - run: npx nx affected -t build --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
   test:
     runs-on: ubuntu-latest
-    env:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -112,7 +107,8 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-        run: npm install
-      - name: Run tests
+      - run: npm install
+      - name: Set SHAs for NX
         uses: nrwl/nx-set-shas@v4
+      - name: Run tests
         run: npx nx affected -t test --base=origin/main --head=HEAD --exclude='*,!scope:utilities,!scope:ui' --configuration=production
