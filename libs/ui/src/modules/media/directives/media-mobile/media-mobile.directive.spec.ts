@@ -33,16 +33,21 @@ describe('MediaMobileDirective', () => {
 		directivePO = new MediaMobileDirectivePo(spectator);
 
 		expect(directivePO.element).toExist();
+		expect(directivePO.elements).toHaveLength(1);
 		expect(spyOnMediaMobile).toHaveBeenNthCalledWith(1);
 
 		mediaServiceMock.setAsDesktop();
 		spectator.detectChanges();
 
 		expect(directivePO.element).not.toExist();
+		expect(directivePO.elements).toHaveLength(0);
+		expect(spyOnMediaMobile).toHaveBeenNthCalledWith(1);
 
 		mediaServiceMock.setAsMobile();
 		spectator.detectChanges();
 
 		expect(directivePO.element).toExist();
+		expect(directivePO.elements).toHaveLength(1);
+		expect(spyOnMediaMobile).toHaveBeenNthCalledWith(1);
 	});
 });

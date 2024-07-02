@@ -22,3 +22,7 @@ export interface MediaElement<B = MediaBreakpoint> {
 
 	readonly checkMedia: (breakpoint: B) => Observable<boolean>;
 }
+
+export interface MediaDevice {
+	get checkMedia(): Observable<boolean>;
+}

@@ -1,22 +1,19 @@
-import { Directive, inject, TemplateRef, ViewContainerRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Directive, inject } from '@angular/core';
 
 import { MediaService } from '../../services';
+
+import { MediaDeviceDirective } from '../media-device/media-device.directive';
+
+import { MediaDevice } from '../../interfaces';
+
+import { MEDIA_DEVICE } from '../../tokens/media.token';
 
 @Directive({
 	selector: '[ksMediaDesktop]',
 	standalone: true,
+	providers: [{ provide: MEDIA_DEVICE, useExisting: MediaDesktopDirective }],
+	hostDirectives: [MediaDeviceDirective],
 })
-export class MediaDesktopDirective {
-	private readonly mediaService = inject(MediaService);
-	private readonly templateRef = inject(TemplateRef<null>);
-	private readonly viewContainerRef = inject(ViewContainerRef);
-
-	constructor() {
-		this.mediaService.mediaDesktop
-			.pipe(takeUntilDestroyed())
-			.subscribe(isMatched =>
-				isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
-			);
-	}
+export class MediaDesktopDirective implements MediaDevice {
+	public readonly checkMedia = inject(MediaService).mediaDesktop;
 }

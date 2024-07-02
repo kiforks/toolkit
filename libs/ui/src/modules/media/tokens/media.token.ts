@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-import { MediaConfig, MediaElement } from '../interfaces';
+import { MediaConfig, MediaDevice, MediaElement } from '../interfaces';
 
 /**
  * @private
@@ -16,3 +16,4 @@ import { MediaConfig, MediaElement } from '../interfaces';
 export const MEDIA_CONFIG_TOKEN = new InjectionToken<Partial<MediaConfig>>('MEDIA_CONFIG');
 
 export const MEDIA_ELEMENT = new InjectionToken<MediaElement>('MEDIA_ELEMENT');
+export const MEDIA_DEVICE = new InjectionToken<MediaDevice>('MEDIA_DEVICE');
