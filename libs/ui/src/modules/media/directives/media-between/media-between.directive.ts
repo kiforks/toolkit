@@ -1,6 +1,6 @@
 import { Directive, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 import { MediaService } from '../../services';
 
@@ -22,6 +22,7 @@ export class MediaBetweenDirective {
 	constructor() {
 		this.fromToBreakpoints$
 			.pipe(
+				tap(() => this.viewContainerRef.clear()),
 				switchMap(breakpoints => this.mediaService.mediaBetween(breakpoints)),
 				takeUntilDestroyed()
 			)

@@ -1,7 +1,7 @@
 import { Directive, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Breakpoint } from '@kiforks/core';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 import { MediaService } from '../../services';
 
@@ -21,6 +21,7 @@ export class MediaOnlyDirective {
 	constructor() {
 		this.breakpoint$
 			.pipe(
+				tap(() => this.viewContainerRef.clear()),
 				switchMap(breakpoint => this.mediaService.mediaOnly(breakpoint)),
 				takeUntilDestroyed()
 			)
