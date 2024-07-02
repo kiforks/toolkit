@@ -1,0 +1,17 @@
+@use '../functions';
+@use '../variables/breakpoints';
+
+/* stylelint-disable media-feature-name-disallowed-list, media-query-no-invalid */
+// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin media-min($name, $grid-breakpoints: breakpoints.$breakpoints) {
+	$min: functions.breakpoint-min($name, $grid-breakpoints);
+
+	@if $min {
+		@media (min-width: $min) {
+			@content;
+		}
+	} @else {
+		@content;
+	}
+}

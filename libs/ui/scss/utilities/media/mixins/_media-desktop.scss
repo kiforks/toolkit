@@ -1,0 +1,12 @@
+@use './media-min';
+
+/**
+* Media between the breakpoint's for mobile only.
+* No minimum for the smallest breakpoint, and no maximum for the largest one.
+* Makes the @content apply only to the given breakpoint, not viewports any wider or narrower.
+*/
+@mixin media-desktop() {
+	@include media-min.media-min(md) {
+		@content;
+	}
+}
