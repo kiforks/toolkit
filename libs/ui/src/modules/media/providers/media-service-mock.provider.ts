@@ -1,24 +1,24 @@
 import { Provider } from '@angular/core';
 
-import { KsMediaService } from '../services';
+import { MediaService } from '../services';
 
-import { KsMediaServiceMock } from '../mocks';
+import { MediaServiceMock } from '../mocks';
 
 /**
- * Utility function to provide a mock implementation of the KsMediaService.
- * This function is useful for testing components that depend on KsMediaService.
+ * Utility function to provide a mock implementation of the MediaService.
+ * This function is useful for testing components that depend on MediaService.
  *
  * @example
  *  ...
- *  const mediaServiceMock = new KsMediaServiceMock().setMediaBetween(true);
+ *  const mediaServiceMock = new MediaServiceMock().setMediaBetween(true);
  *  ...
  * 	spectator = createDirective(
  * 		...
- * 		{ providers: [provideKsMediaServiceMock(mediaServiceMock)] }
+ * 		{ providers: [provideMediaServiceMock(mediaServiceMock)] }
  * 	);
  * 	...
  * */
-export const provideKsMediaServiceMock = (mock: KsMediaServiceMock): Provider => ({
-	provide: KsMediaService,
+export const provideMediaServiceMock = (mock: MediaServiceMock): Provider => ({
+	provide: MediaService,
 	useValue: mock,
 });

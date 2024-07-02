@@ -5,12 +5,12 @@ import { Breakpoint } from '@kiforks/core';
  * For max-width no media-min query necessary for xs breakpoint as it's effectively `@media-min (max-width: 0) { ... }`
  * This is the reason why we exclude 'xs' breakpoint from this type
  * */
-export type KsMediaBreakpoint = Exclude<Breakpoint, 'xs'>;
-export type KsMediaBetweenBreakpoints = [Breakpoint, KsMediaBreakpoint];
+export type MediaBreakpoint = Exclude<Breakpoint, 'xs'>;
+export type MediaBetweenBreakpoints = [Breakpoint, MediaBreakpoint];
 
 export type MediaBreakpoints = Record<Breakpoint, number>;
 
-export interface KsMediaConfig {
+export interface MediaConfig {
 	breakpoints: MediaBreakpoints;
-	deviceBreakpoint: KsMediaBreakpoint;
+	deviceBreakpoint: MediaBreakpoint;
 }

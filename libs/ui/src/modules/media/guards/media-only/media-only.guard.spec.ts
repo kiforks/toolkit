@@ -3,23 +3,23 @@ import { Injector, runInInjectionContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
-import { KsMediaService } from '../../services';
-import { ksMediaOnlyGuard } from './media-only.guard';
+import { MediaService } from '../../services';
+import { mediaOnlyGuard } from './media-only.guard';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
-describe('ksMediaOnlyGuard', () => {
+describe('mediaOnlyGuard', () => {
 	let injector: Injector;
 	let router: Router;
 	let route: ActivatedRouteSnapshot;
 
-	const mediaServiceMock = new KsMediaServiceMock();
+	const mediaServiceMock = new MediaServiceMock();
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			providers: [KsMediaService, MockProvider(ActivatedRouteSnapshot), provideKsMediaServiceMock(mediaServiceMock)],
+			providers: [MediaService, MockProvider(ActivatedRouteSnapshot), provideMediaServiceMock(mediaServiceMock)],
 		});
 
 		injector = TestBed.inject(Injector);
@@ -31,16 +31,12 @@ describe('ksMediaOnlyGuard', () => {
 	it('should allow access when media service returns true', () => {
 		mediaServiceMock.setMediaOnly(true);
 
-		runInInjectionContext(injector, () =>
-			expect(ksMediaOnlyGuard('md')(route, router.routerState.snapshot)).toBe(true)
-		);
+		runInInjectionContext(injector, () => expect(mediaOnlyGuard('md')(route, router.routerState.snapshot)).toBe(true));
 	});
 
 	it('should disallow access when media service returns true', () => {
 		mediaServiceMock.setMediaOnly(false);
 
-		runInInjectionContext(injector, () =>
-			expect(ksMediaOnlyGuard('md')(route, router.routerState.snapshot)).toBe(false)
-		);
+		runInInjectionContext(injector, () => expect(mediaOnlyGuard('md')(route, router.routerState.snapshot)).toBe(false));
 	});
 });

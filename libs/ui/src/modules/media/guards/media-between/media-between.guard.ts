@@ -2,9 +2,9 @@ import { inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CanActivateFn } from '@angular/router';
 
-import { KsMediaService } from '../../services';
+import { MediaService } from '../../services';
 
-import { KsMediaBetweenBreakpoints } from '../../interfaces';
+import { MediaBetweenBreakpoints } from '../../interfaces';
 
 /**
  * Function to create a guard for checking if the screen width is between specified breakpoints.
@@ -12,12 +12,12 @@ import { KsMediaBetweenBreakpoints } from '../../interfaces';
  *
  * @example
  * const routes: Routes = [
- *   { path: 'example', component: ExampleComponent, canActivate: [ksMediaBetweenGuard(['sm', 'md'])] }
+ *   { path: 'example', component: ExampleComponent, canActivate: [mediaBetweenGuard(['sm', 'md'])] }
  * ];
  */
-export const ksMediaBetweenGuard: (breakpoints: KsMediaBetweenBreakpoints) => CanActivateFn =
-	(breakpoints: KsMediaBetweenBreakpoints) => (): boolean => {
-		const mediaService = inject(KsMediaService);
+export const mediaBetweenGuard: (breakpoints: MediaBetweenBreakpoints) => CanActivateFn =
+	(breakpoints: MediaBetweenBreakpoints) => (): boolean => {
+		const mediaService = inject(MediaService);
 		const isMatched = toSignal(mediaService.mediaBetween(breakpoints));
 
 		return !!isMatched();

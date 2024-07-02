@@ -1,23 +1,23 @@
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator/jest';
 
-import { KsMediaMinDirective } from './media-min.directive';
+import { MediaMinDirective } from './media-min.directive';
 import { MediaMinDirectivePo } from './media-min.directive.po';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { KsMediaBreakpoint } from '../../interfaces';
+import { MediaBreakpoint } from '../../interfaces';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
 describe('KsMediaMinDirective', () => {
-	let spectator: SpectatorDirective<KsMediaMinDirective>;
+	let spectator: SpectatorDirective<MediaMinDirective>;
 	let directivePO: MediaMinDirectivePo;
 
-	const createDirective = createDirectiveFactory(KsMediaMinDirective);
+	const createDirective = createDirectiveFactory(MediaMinDirective);
 
 	it('should dynamically render directive content', () => {
-		const mediaServiceMock = new KsMediaServiceMock().setMediaMin(true);
-		const breakpoint: KsMediaBreakpoint = 'sm';
+		const mediaServiceMock = new MediaServiceMock().setMediaMin(true);
+		const breakpoint: MediaBreakpoint = 'sm';
 
 		const spyOnMediaMin = jest.spyOn(mediaServiceMock, 'mediaMin');
 
@@ -30,7 +30,7 @@ describe('KsMediaMinDirective', () => {
 					Test
 				</div>
 			`,
-			{ providers: [provideKsMediaServiceMock(mediaServiceMock)], hostProps: { breakpoint } }
+			{ providers: [provideMediaServiceMock(mediaServiceMock)], hostProps: { breakpoint } }
 		);
 
 		directivePO = new MediaMinDirectivePo(spectator);
@@ -38,7 +38,7 @@ describe('KsMediaMinDirective', () => {
 		expect(directivePO.element).toExist();
 		expect(spyOnMediaMin).toHaveBeenNthCalledWith(1, breakpoint);
 
-		const breakpointLG: KsMediaBreakpoint = 'lg';
+		const breakpointLG: MediaBreakpoint = 'lg';
 
 		mediaServiceMock.setMediaMin(false);
 		spectator.setHostInput({ breakpoint: breakpointLG });
@@ -46,7 +46,7 @@ describe('KsMediaMinDirective', () => {
 		expect(directivePO.element).not.toExist();
 		expect(spyOnMediaMin).toHaveBeenNthCalledWith(2, breakpointLG);
 
-		const breakpointXL: KsMediaBreakpoint = 'xl';
+		const breakpointXL: MediaBreakpoint = 'xl';
 
 		mediaServiceMock.setMediaMin(true);
 		spectator.setHostInput({ breakpoint: breakpointXL });

@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CanActivateFn } from '@angular/router';
 
-import { KsMediaService } from '../../services';
+import { MediaService } from '../../services';
 
 /**
  * Guard to activate based on the mobile media breakpoint.
@@ -10,11 +10,11 @@ import { KsMediaService } from '../../services';
  *
  * @example
  * const routes: Routes = [
- *   { path: 'example', component: ExampleComponent, canActivate: [ksMediaMobileGuard] }
+ *   { path: 'example', component: ExampleComponent, canActivate: [mediaMobileGuard] }
  * ];
  */
-export const ksMediaMobileGuard: CanActivateFn = (): boolean => {
-	const mediaService = inject(KsMediaService);
+export const mediaMobileGuard: CanActivateFn = (): boolean => {
+	const mediaService = inject(MediaService);
 	const isMatched = toSignal(mediaService.mediaMobile);
 
 	return !!isMatched();

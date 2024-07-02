@@ -1,23 +1,23 @@
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator/jest';
 
-import { KsMediaMaxDirective } from './media-max.directive';
+import { MediaMaxDirective } from './media-max.directive';
 import { MediaMaxDirectivePO } from './media-max.directive.po';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { KsMediaBreakpoint } from '../../interfaces';
+import { MediaBreakpoint } from '../../interfaces';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
 describe('KsMediaMaxDirective', () => {
-	let spectator: SpectatorDirective<KsMediaMaxDirective>;
+	let spectator: SpectatorDirective<MediaMaxDirective>;
 	let directivePO: MediaMaxDirectivePO;
 
-	const createDirective = createDirectiveFactory(KsMediaMaxDirective);
+	const createDirective = createDirectiveFactory(MediaMaxDirective);
 
 	it('should dynamically render directive content', () => {
-		const mediaServiceMock = new KsMediaServiceMock().setMediaMax(true);
-		const breakpoint: KsMediaBreakpoint = 'sm';
+		const mediaServiceMock = new MediaServiceMock().setMediaMax(true);
+		const breakpoint: MediaBreakpoint = 'sm';
 
 		const spyOnMediaMax = jest.spyOn(mediaServiceMock, 'mediaMax');
 
@@ -30,7 +30,7 @@ describe('KsMediaMaxDirective', () => {
 					Test
 				</div>
 			`,
-			{ providers: [provideKsMediaServiceMock(mediaServiceMock)], hostProps: { breakpoint } }
+			{ providers: [provideMediaServiceMock(mediaServiceMock)], hostProps: { breakpoint } }
 		);
 
 		directivePO = new MediaMaxDirectivePO(spectator);
@@ -38,7 +38,7 @@ describe('KsMediaMaxDirective', () => {
 		expect(directivePO.element).toExist();
 		expect(spyOnMediaMax).toHaveBeenNthCalledWith(1, breakpoint);
 
-		const breakpointLG: KsMediaBreakpoint = 'lg';
+		const breakpointLG: MediaBreakpoint = 'lg';
 
 		mediaServiceMock.setMediaMax(false);
 		spectator.setHostInput({ breakpoint: breakpointLG });
@@ -46,7 +46,7 @@ describe('KsMediaMaxDirective', () => {
 		expect(directivePO.element).not.toExist();
 		expect(spyOnMediaMax).toHaveBeenNthCalledWith(2, breakpointLG);
 
-		const breakpointXL: KsMediaBreakpoint = 'xl';
+		const breakpointXL: MediaBreakpoint = 'xl';
 
 		mediaServiceMock.setMediaMax(true);
 		spectator.setHostInput({ breakpoint: breakpointXL });

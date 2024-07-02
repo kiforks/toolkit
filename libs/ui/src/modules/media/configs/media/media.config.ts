@@ -1,15 +1,15 @@
 import { Breakpoint } from '@kiforks/core';
 
-import { KsMediaBreakpoint, MediaBreakpoints } from '../../interfaces';
+import { MediaBreakpoint, MediaBreakpoints } from '../../interfaces';
 
 /**
  * @private
  *
  * This config is not a part of package
  * */
-export abstract class KS_MEDIA_CONFIG {
+export abstract class MEDIA_CONFIG {
 	public static readonly breakpointValues: Breakpoint[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
-	public static readonly deviceBreakpoint: KsMediaBreakpoint = 'md';
+	public static readonly deviceBreakpoint: MediaBreakpoint = 'md';
 
 	/*
 	 * Browsers don’t currently support range context queries, so we work around the

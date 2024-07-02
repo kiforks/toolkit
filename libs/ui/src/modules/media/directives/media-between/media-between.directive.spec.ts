@@ -1,23 +1,23 @@
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator/jest';
 
-import { KsMediaBetweenDirective } from './media-between.directive';
+import { MediaBetweenDirective } from './media-between.directive';
 import { MediaBetweenDirectivePO } from './media-between.directive.po';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { KsMediaBetweenBreakpoints } from '../../interfaces';
+import { MediaBetweenBreakpoints } from '../../interfaces';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
 describe('KsMediaBetweenDirective', () => {
-	let spectator: SpectatorDirective<KsMediaBetweenDirective>;
+	let spectator: SpectatorDirective<MediaBetweenDirective>;
 	let directivePO: MediaBetweenDirectivePO;
 
-	const createDirective = createDirectiveFactory(KsMediaBetweenDirective);
+	const createDirective = createDirectiveFactory(MediaBetweenDirective);
 
 	it('should dynamically render directive content', () => {
-		const mediaServiceMock = new KsMediaServiceMock().setMediaBetween(true);
-		const breakpoints: KsMediaBetweenBreakpoints = ['sm', 'lg'];
+		const mediaServiceMock = new MediaServiceMock().setMediaBetween(true);
+		const breakpoints: MediaBetweenBreakpoints = ['sm', 'lg'];
 		const spyOnMediaBetween = jest.spyOn(mediaServiceMock, 'mediaBetween');
 
 		spectator = createDirective(
@@ -29,7 +29,7 @@ describe('KsMediaBetweenDirective', () => {
 					Test
 				</div>
 			`,
-			{ providers: [provideKsMediaServiceMock(mediaServiceMock)], hostProps: { breakpoints } }
+			{ providers: [provideMediaServiceMock(mediaServiceMock)], hostProps: { breakpoints } }
 		);
 
 		directivePO = new MediaBetweenDirectivePO(spectator);
@@ -37,7 +37,7 @@ describe('KsMediaBetweenDirective', () => {
 		expect(directivePO.element).toExist();
 		expect(spyOnMediaBetween).toHaveBeenNthCalledWith(1, breakpoints);
 
-		const fromXLToXXL: KsMediaBetweenBreakpoints = ['xl', 'xxl'];
+		const fromXLToXXL: MediaBetweenBreakpoints = ['xl', 'xxl'];
 
 		mediaServiceMock.setMediaBetween(false);
 		spectator.setHostInput({ breakpoints: fromXLToXXL });
@@ -45,7 +45,7 @@ describe('KsMediaBetweenDirective', () => {
 		expect(directivePO.element).not.toExist();
 		expect(spyOnMediaBetween).toHaveBeenNthCalledWith(2, fromXLToXXL);
 
-		const fromXSToMD: KsMediaBetweenBreakpoints = ['xs', 'md'];
+		const fromXSToMD: MediaBetweenBreakpoints = ['xs', 'md'];
 
 		mediaServiceMock.setMediaBetween(true);
 		spectator.setHostInput({ breakpoints: fromXSToMD });

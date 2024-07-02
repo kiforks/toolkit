@@ -2,9 +2,9 @@ import { inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CanActivateFn } from '@angular/router';
 
-import { KsMediaService } from '../../services';
+import { MediaService } from '../../services';
 
-import { KsMediaBreakpoint } from '../../interfaces';
+import { MediaBreakpoint } from '../../interfaces';
 
 /**
  * Guard to activate based on the maximum media breakpoint.
@@ -12,12 +12,12 @@ import { KsMediaBreakpoint } from '../../interfaces';
  *
  * @example
  * const routes: Routes = [
- *   { path: 'example', component: ExampleComponent, canActivate: [ksMediaMaxGuard('md')] }
+ *   { path: 'example', component: ExampleComponent, canActivate: [mediaMaxGuard('md')] }
  * ];
  */
-export const ksMediaMaxGuard: (breakpoint: KsMediaBreakpoint) => CanActivateFn =
-	(breakpoint: KsMediaBreakpoint) => (): boolean => {
-		const mediaService = inject(KsMediaService);
+export const mediaMaxGuard: (breakpoint: MediaBreakpoint) => CanActivateFn =
+	(breakpoint: MediaBreakpoint) => (): boolean => {
+		const mediaService = inject(MediaService);
 		const isMatched = toSignal(mediaService.mediaMax(breakpoint));
 
 		return !!isMatched();

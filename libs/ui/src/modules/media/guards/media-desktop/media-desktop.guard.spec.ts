@@ -3,23 +3,23 @@ import { Injector, runInInjectionContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
-import { KsMediaService } from '../../services';
-import { ksMediaDesktopGuard } from './media-desktop.guard';
+import { MediaService } from '../../services';
+import { mediaDesktopGuard } from './media-desktop.guard';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
-describe('ksMediaDesktopGuard', () => {
+describe('mediaDesktopGuard', () => {
 	let injector: Injector;
 	let router: Router;
 	let route: ActivatedRouteSnapshot;
 
-	const mediaServiceMock = new KsMediaServiceMock();
+	const mediaServiceMock = new MediaServiceMock();
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			providers: [KsMediaService, MockProvider(ActivatedRouteSnapshot), provideKsMediaServiceMock(mediaServiceMock)],
+			providers: [MediaService, MockProvider(ActivatedRouteSnapshot), provideMediaServiceMock(mediaServiceMock)],
 		});
 
 		injector = TestBed.inject(Injector);
@@ -31,12 +31,12 @@ describe('ksMediaDesktopGuard', () => {
 	it('should allow access when media service returns true', () => {
 		mediaServiceMock.setAsDesktop();
 
-		runInInjectionContext(injector, () => expect(ksMediaDesktopGuard(route, router.routerState.snapshot)).toBe(true));
+		runInInjectionContext(injector, () => expect(mediaDesktopGuard(route, router.routerState.snapshot)).toBe(true));
 	});
 
 	it('should disallow access when media service returns true', () => {
 		mediaServiceMock.setAsMobile();
 
-		runInInjectionContext(injector, () => expect(ksMediaDesktopGuard(route, router.routerState.snapshot)).toBe(false));
+		runInInjectionContext(injector, () => expect(mediaDesktopGuard(route, router.routerState.snapshot)).toBe(false));
 	});
 });

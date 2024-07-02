@@ -1,20 +1,20 @@
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator/jest';
 
-import { KsMediaDesktopDirective } from './media-desktop.directive';
+import { MediaDesktopDirective } from './media-desktop.directive';
 import { MediaDesktopDirectivePo } from './media-desktop.directive.po';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
 describe('KsMediaDesktopDirective', () => {
-	let spectator: SpectatorDirective<KsMediaDesktopDirective>;
+	let spectator: SpectatorDirective<MediaDesktopDirective>;
 	let directivePO: MediaDesktopDirectivePo;
 
-	const createDirective = createDirectiveFactory(KsMediaDesktopDirective);
+	const createDirective = createDirectiveFactory(MediaDesktopDirective);
 
 	it('should dynamically render directive content', () => {
-		const mediaServiceMock = new KsMediaServiceMock().setAsDesktop();
+		const mediaServiceMock = new MediaServiceMock().setAsDesktop();
 
 		const spyOnMediaDesktop = jest.spyOn(mediaServiceMock, 'mediaDesktop', 'get');
 
@@ -27,7 +27,7 @@ describe('KsMediaDesktopDirective', () => {
 					Test
 				</div>
 			`,
-			{ providers: [provideKsMediaServiceMock(mediaServiceMock)] }
+			{ providers: [provideMediaServiceMock(mediaServiceMock)] }
 		);
 
 		directivePO = new MediaDesktopDirectivePo(spectator);

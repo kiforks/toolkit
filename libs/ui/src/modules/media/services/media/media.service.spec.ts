@@ -3,13 +3,13 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { firstValueFrom, Observable, of } from 'rxjs';
 
-import { KsMediaService } from './media.service';
+import { MediaService } from './media.service';
 
-describe('KsMediaService', () => {
-	let spectator: SpectatorService<KsMediaService>;
-	let service: KsMediaService;
+describe('MediaService', () => {
+	let spectator: SpectatorService<MediaService>;
+	let service: MediaService;
 
-	const createService = createServiceFactory(KsMediaService);
+	const createService = createServiceFactory(MediaService);
 
 	describe('mediaMobile', () => {
 		it('should return the proper value', async () => {
@@ -225,7 +225,7 @@ describe('KsMediaService', () => {
 				await expect(async () => {
 					await firstValueFrom(service.mediaBetween(['sm', 'sm']));
 				}).rejects.toThrow(
-					'"KsMediaService": the minimum value "(min-width: 576px)" cannot be equal to or greater than the maximum value "(max-width: 575.98px)"'
+					'"MediaService": the minimum value "(min-width: 576px)" cannot be equal to or greater than the maximum value "(max-width: 575.98px)"'
 				);
 			});
 
@@ -233,7 +233,7 @@ describe('KsMediaService', () => {
 				await expect(async () => {
 					await firstValueFrom(service.mediaBetween(['md', 'sm']));
 				}).rejects.toThrow(
-					'"KsMediaService": the minimum value "(min-width: 768px)" cannot be equal to or greater than the maximum value "(max-width: 575.98px)"'
+					'"MediaService": the minimum value "(min-width: 768px)" cannot be equal to or greater than the maximum value "(max-width: 575.98px)"'
 				);
 			});
 		});

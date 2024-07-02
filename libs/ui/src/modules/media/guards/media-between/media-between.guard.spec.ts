@@ -3,23 +3,23 @@ import { Injector, runInInjectionContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
-import { KsMediaService } from '../../services';
-import { ksMediaBetweenGuard } from './media-between.guard';
+import { MediaService } from '../../services';
+import { mediaBetweenGuard } from './media-between.guard';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
 describe('ksMediaBetweenGuard', () => {
 	let injector: Injector;
 	let router: Router;
 	let route: ActivatedRouteSnapshot;
 
-	const mediaServiceMock = new KsMediaServiceMock();
+	const mediaServiceMock = new MediaServiceMock();
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			providers: [KsMediaService, MockProvider(ActivatedRouteSnapshot), provideKsMediaServiceMock(mediaServiceMock)],
+			providers: [MediaService, MockProvider(ActivatedRouteSnapshot), provideMediaServiceMock(mediaServiceMock)],
 		});
 
 		injector = TestBed.inject(Injector);
@@ -32,7 +32,7 @@ describe('ksMediaBetweenGuard', () => {
 		mediaServiceMock.setMediaBetween(true);
 
 		runInInjectionContext(injector, () =>
-			expect(ksMediaBetweenGuard(['md', 'lg'])(route, router.routerState.snapshot)).toBe(true)
+			expect(mediaBetweenGuard(['md', 'lg'])(route, router.routerState.snapshot)).toBe(true)
 		);
 	});
 
@@ -40,7 +40,7 @@ describe('ksMediaBetweenGuard', () => {
 		mediaServiceMock.setMediaBetween(false);
 
 		runInInjectionContext(injector, () =>
-			expect(ksMediaBetweenGuard(['md', 'lg'])(route, router.routerState.snapshot)).toBe(false)
+			expect(mediaBetweenGuard(['md', 'lg'])(route, router.routerState.snapshot)).toBe(false)
 		);
 	});
 });

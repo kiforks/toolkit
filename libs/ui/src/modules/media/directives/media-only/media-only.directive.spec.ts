@@ -1,23 +1,23 @@
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator/jest';
 
-import { KsMediaOnlyDirective } from './media-only.directive';
+import { MediaOnlyDirective } from './media-only.directive';
 import { MediaOnlyDirectivePo } from './media-only.directive.po';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { KsMediaBreakpoint } from '../../interfaces';
+import { MediaBreakpoint } from '../../interfaces';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
 describe('KsMediaOnlyDirective', () => {
-	let spectator: SpectatorDirective<KsMediaOnlyDirective>;
+	let spectator: SpectatorDirective<MediaOnlyDirective>;
 	let directivePO: MediaOnlyDirectivePo;
 
-	const createDirective = createDirectiveFactory(KsMediaOnlyDirective);
+	const createDirective = createDirectiveFactory(MediaOnlyDirective);
 
 	it('should dynamically render directive content', () => {
-		const mediaServiceMock = new KsMediaServiceMock().setMediaOnly(true);
-		const breakpoint: KsMediaBreakpoint = 'sm';
+		const mediaServiceMock = new MediaServiceMock().setMediaOnly(true);
+		const breakpoint: MediaBreakpoint = 'sm';
 
 		const spyOnMediaOnly = jest.spyOn(mediaServiceMock, 'mediaOnly');
 
@@ -30,7 +30,7 @@ describe('KsMediaOnlyDirective', () => {
 					Test
 				</div>
 			`,
-			{ providers: [provideKsMediaServiceMock(mediaServiceMock)], hostProps: { breakpoint } }
+			{ providers: [provideMediaServiceMock(mediaServiceMock)], hostProps: { breakpoint } }
 		);
 
 		directivePO = new MediaOnlyDirectivePo(spectator);
@@ -38,7 +38,7 @@ describe('KsMediaOnlyDirective', () => {
 		expect(directivePO.element).toExist();
 		expect(spyOnMediaOnly).toHaveBeenNthCalledWith(1, breakpoint);
 
-		const breakpointLG: KsMediaBreakpoint = 'lg';
+		const breakpointLG: MediaBreakpoint = 'lg';
 
 		mediaServiceMock.setMediaOnly(false);
 		spectator.setHostInput({ breakpoint: breakpointLG });
@@ -46,7 +46,7 @@ describe('KsMediaOnlyDirective', () => {
 		expect(directivePO.element).not.toExist();
 		expect(spyOnMediaOnly).toHaveBeenNthCalledWith(2, breakpointLG);
 
-		const breakpointXL: KsMediaBreakpoint = 'xl';
+		const breakpointXL: MediaBreakpoint = 'xl';
 
 		mediaServiceMock.setMediaOnly(true);
 		spectator.setHostInput({ breakpoint: breakpointXL });

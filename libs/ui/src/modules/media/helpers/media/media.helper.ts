@@ -1,4 +1,4 @@
-import { KS_MEDIA_CONFIG } from '../../configs/media/media.config';
+import { MEDIA_CONFIG } from '../../configs/media/media.config';
 
 /**
  * Helper class for generating media-min query strings.
@@ -14,7 +14,7 @@ export abstract class MediaHelper {
 	 * ```
 	 */
 	public static getMaxWidth(breakpoint: number): string {
-		const value = breakpoint - KS_MEDIA_CONFIG.maxScreenRange;
+		const value = breakpoint - MEDIA_CONFIG.maxScreenRange;
 
 		return `(max-width: ${value}px)`;
 	}

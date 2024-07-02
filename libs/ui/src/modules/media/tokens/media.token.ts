@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-import { KsMediaConfig } from '../interfaces';
+import { MediaConfig } from '../interfaces';
 
 /**
  * @private
@@ -13,4 +13,4 @@ import { KsMediaConfig } from '../interfaces';
  *
  * @typeparam Partial<KsMediaConfig> - Partial configuration object for the media service.
  */
-export const KS_MEDIA_CONFIG_TOKEN = new InjectionToken<Partial<KsMediaConfig>>('MEDIA_CONFIG');
+export const MEDIA_CONFIG_TOKEN = new InjectionToken<Partial<MediaConfig>>('MEDIA_CONFIG');

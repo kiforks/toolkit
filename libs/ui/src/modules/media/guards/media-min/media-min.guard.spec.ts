@@ -3,23 +3,23 @@ import { Injector, runInInjectionContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
-import { KsMediaService } from '../../services';
-import { ksMediaMinGuard } from './media-min.guard';
+import { MediaService } from '../../services';
+import { mediaMinGuard } from './media-min.guard';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
-describe('ksMediaMinGuard', () => {
+describe('mediaMinGuard', () => {
 	let injector: Injector;
 	let router: Router;
 	let route: ActivatedRouteSnapshot;
 
-	const mediaServiceMock = new KsMediaServiceMock();
+	const mediaServiceMock = new MediaServiceMock();
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			providers: [KsMediaService, MockProvider(ActivatedRouteSnapshot), provideKsMediaServiceMock(mediaServiceMock)],
+			providers: [MediaService, MockProvider(ActivatedRouteSnapshot), provideMediaServiceMock(mediaServiceMock)],
 		});
 
 		injector = TestBed.inject(Injector);
@@ -31,14 +31,12 @@ describe('ksMediaMinGuard', () => {
 	it('should allow access when media service returns true', () => {
 		mediaServiceMock.setMediaMin(true);
 
-		runInInjectionContext(injector, () => expect(ksMediaMinGuard('md')(route, router.routerState.snapshot)).toBe(true));
+		runInInjectionContext(injector, () => expect(mediaMinGuard('md')(route, router.routerState.snapshot)).toBe(true));
 	});
 
 	it('should disallow access when media service returns true', () => {
 		mediaServiceMock.setMediaMin(false);
 
-		runInInjectionContext(injector, () =>
-			expect(ksMediaMinGuard('md')(route, router.routerState.snapshot)).toBe(false)
-		);
+		runInInjectionContext(injector, () => expect(mediaMinGuard('md')(route, router.routerState.snapshot)).toBe(false));
 	});
 });
