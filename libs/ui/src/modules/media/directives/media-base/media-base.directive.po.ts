@@ -1,6 +1,6 @@
 import { SpectatorDirective } from '@ngneat/spectator/jest';
 
-export class MediaMaxDirectivePO {
+export class MediaBaseDirectivePO {
 	constructor(private readonly _spectator: SpectatorDirective<unknown>) {}
 
 	public get element(): HTMLElement {

@@ -1,4 +1,6 @@
+import { InputSignal } from '@angular/core';
 import { Breakpoint } from '@kiforks/core';
+import { Observable } from 'rxjs';
 
 /*
  * For min-width no media-min query necessary for xs breakpoint as it's effectively `@media-min (min-width: 0) { ... }`
@@ -13,4 +15,10 @@ export type MediaBreakpoints = Record<Breakpoint, number>;
 export interface MediaConfig {
 	breakpoints: MediaBreakpoints;
 	deviceBreakpoint: MediaBreakpoint;
+}
+
+export interface MediaElement<B = MediaBreakpoint> {
+	readonly breakpoint: InputSignal<B>;
+
+	readonly checkMedia: (breakpoint: B) => Observable<boolean>;
 }

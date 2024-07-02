@@ -36,6 +36,7 @@ describe('MediaMinDirective', () => {
 		directivePO = new MediaMinDirectivePo(spectator);
 
 		expect(directivePO.element).toExist();
+		expect(directivePO.elements).toHaveLength(1);
 		expect(spyOnMediaMin).toHaveBeenNthCalledWith(1, breakpoint);
 
 		const breakpointLG: MediaBreakpoint = 'lg';
@@ -44,6 +45,7 @@ describe('MediaMinDirective', () => {
 		spectator.setHostInput({ breakpoint: breakpointLG });
 
 		expect(directivePO.element).not.toExist();
+		expect(directivePO.elements).toHaveLength(0);
 		expect(spyOnMediaMin).toHaveBeenNthCalledWith(2, breakpointLG);
 
 		const breakpointXL: MediaBreakpoint = 'xl';
@@ -52,6 +54,7 @@ describe('MediaMinDirective', () => {
 		spectator.setHostInput({ breakpoint: breakpointXL });
 
 		expect(directivePO.element).toExist();
+		expect(directivePO.elements).toHaveLength(1);
 		expect(spyOnMediaMin).toHaveBeenNthCalledWith(3, breakpointXL);
 	});
 });

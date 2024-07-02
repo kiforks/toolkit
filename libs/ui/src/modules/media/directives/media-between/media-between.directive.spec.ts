@@ -35,6 +35,7 @@ describe('MediaBetweenDirective', () => {
 		directivePO = new MediaBetweenDirectivePO(spectator);
 
 		expect(directivePO.element).toExist();
+		expect(directivePO.elements).toHaveLength(1);
 		expect(spyOnMediaBetween).toHaveBeenNthCalledWith(1, breakpoints);
 
 		const fromXLToXXL: MediaBetweenBreakpoints = ['xl', 'xxl'];
@@ -43,6 +44,7 @@ describe('MediaBetweenDirective', () => {
 		spectator.setHostInput({ breakpoints: fromXLToXXL });
 
 		expect(directivePO.element).not.toExist();
+		expect(directivePO.elements).toHaveLength(0);
 		expect(spyOnMediaBetween).toHaveBeenNthCalledWith(2, fromXLToXXL);
 
 		const fromXSToMD: MediaBetweenBreakpoints = ['xs', 'md'];
@@ -51,6 +53,7 @@ describe('MediaBetweenDirective', () => {
 		spectator.setHostInput({ breakpoints: fromXSToMD });
 
 		expect(directivePO.element).toExist();
+		expect(directivePO.elements).toHaveLength(1);
 		expect(spyOnMediaBetween).toHaveBeenNthCalledWith(3, fromXSToMD);
 	});
 });

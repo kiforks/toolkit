@@ -36,6 +36,8 @@ describe('MediaMaxDirective', () => {
 		directivePO = new MediaMaxDirectivePO(spectator);
 
 		expect(directivePO.element).toExist();
+		expect(directivePO.elements).toHaveLength(1);
+
 		expect(spyOnMediaMax).toHaveBeenNthCalledWith(1, breakpoint);
 
 		const breakpointLG: MediaBreakpoint = 'lg';
@@ -44,6 +46,7 @@ describe('MediaMaxDirective', () => {
 		spectator.setHostInput({ breakpoint: breakpointLG });
 
 		expect(directivePO.element).not.toExist();
+		expect(directivePO.elements).toHaveLength(0);
 		expect(spyOnMediaMax).toHaveBeenNthCalledWith(2, breakpointLG);
 
 		const breakpointXL: MediaBreakpoint = 'xl';
@@ -52,6 +55,7 @@ describe('MediaMaxDirective', () => {
 		spectator.setHostInput({ breakpoint: breakpointXL });
 
 		expect(directivePO.element).toExist();
+		expect(directivePO.elements).toHaveLength(1);
 		expect(spyOnMediaMax).toHaveBeenNthCalledWith(3, breakpointXL);
 	});
 });

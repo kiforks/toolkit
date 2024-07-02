@@ -1,33 +1,22 @@
-import { Directive, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { switchMap, tap } from 'rxjs';
+import { Directive, inject, input } from '@angular/core';
 
 import { MediaService } from '../../services';
 
-import { MediaBreakpoint } from '../../interfaces';
+import { MediaBaseDirective } from '../media-base/media-base.directive';
+
+import { MediaBreakpoint, MediaElement } from '../../interfaces';
+
+import { MEDIA_ELEMENT } from '../../tokens';
 
 @Directive({
 	selector: '[ksMediaMin]',
 	standalone: true,
+	providers: [{ provide: MEDIA_ELEMENT, useExisting: MediaMinDirective }],
+	hostDirectives: [MediaBaseDirective],
 })
-export class MediaMinDirective {
+export class MediaMinDirective implements MediaElement {
 	public readonly breakpoint = input.required<MediaBreakpoint>({ alias: 'ksMediaMin' });
 
-	private readonly mediaService = inject(MediaService);
-	private readonly templateRef = inject(TemplateRef<null>);
-	private readonly viewContainerRef = inject(ViewContainerRef);
-
-	private readonly breakpoint$ = toObservable(this.breakpoint);
-
-	constructor() {
-		this.breakpoint$
-			.pipe(
-				tap(() => this.viewContainerRef.clear()),
-				switchMap(breakpoint => this.mediaService.mediaMin(breakpoint)),
-				takeUntilDestroyed()
-			)
-			.subscribe(isMatched =>
-				isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
-			);
-	}
+	// eslint-disable-next-line @typescript-eslint/unbound-method
+	public readonly checkMedia = inject(MediaService).mediaMin;
 }
