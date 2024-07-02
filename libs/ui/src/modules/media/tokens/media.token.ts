@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-import { MediaConfig, MediaDevice, MediaElement } from '../interfaces';
+import { MediaConfigData, MediaDevice, MediaElement } from '../interfaces';
 
 /**
  * This config is not a part of package
@@ -8,7 +8,7 @@ import { MediaConfig, MediaDevice, MediaElement } from '../interfaces';
  *
  * @remarks this token is used to provide a partial configuration for the media service in Angular applications.
  */
-export const MEDIA_CONFIG_TOKEN = new InjectionToken<Partial<MediaConfig>>('MEDIA_CONFIG');
+export const MEDIA_CONFIG = new InjectionToken<Partial<MediaConfigData>>('MEDIA_CONFIG');
 
 /**
  * Used here:

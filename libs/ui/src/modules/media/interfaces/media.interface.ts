@@ -12,7 +12,7 @@ export type MediaBetweenBreakpoints = [Breakpoint, MediaBreakpoint];
 
 export type MediaBreakpoints = Record<Breakpoint, number>;
 
-export interface MediaConfig {
+export interface MediaConfigData {
 	breakpoints: MediaBreakpoints;
 	deviceBreakpoint: MediaBreakpoint;
 }

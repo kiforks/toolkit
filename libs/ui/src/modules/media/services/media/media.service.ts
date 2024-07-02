@@ -6,13 +6,13 @@ import { indexOf } from 'lodash';
 import { map, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
-import { MEDIA_CONFIG } from '../../configs/media/media.config';
+import { MediaConfig } from '../../configs/media/media.config';
 
 import { MediaHelper } from '../../helpers';
 
-import { MediaBetweenBreakpoints, MediaBreakpoint, MediaConfig } from '../../interfaces';
+import { MediaBetweenBreakpoints, MediaBreakpoint, MediaConfigData } from '../../interfaces';
 
-import { MEDIA_CONFIG_TOKEN } from '../../tokens/media.token';
+import { MEDIA_CONFIG } from '../../tokens/media.token';
 
 /**
  * Service for handling media-min queries via breakpoints.
@@ -22,10 +22,10 @@ import { MEDIA_CONFIG_TOKEN } from '../../tokens/media.token';
 @Injectable({ providedIn: 'root' })
 export class MediaService {
 	private readonly breakpointObserver = inject(BreakpointObserver);
-	private readonly config: MediaConfig = {
-		breakpoints: MEDIA_CONFIG.breakpoints,
-		deviceBreakpoint: MEDIA_CONFIG.deviceBreakpoint,
-		...inject(MEDIA_CONFIG_TOKEN, { optional: true }),
+	private readonly config: MediaConfigData = {
+		breakpoints: MediaConfig.breakpoints,
+		deviceBreakpoint: MediaConfig.deviceBreakpoint,
+		...inject(MEDIA_CONFIG, { optional: true }),
 	};
 
 	/**
@@ -89,8 +89,8 @@ export class MediaService {
 			return this.getBreakpointValue('xxl', 'min');
 		}
 
-		const nextBreakpointIndex = indexOf(MEDIA_CONFIG.breakpointValues, breakpoint) + 1;
-		const nextBreakpoint = MEDIA_CONFIG.breakpointValues[nextBreakpointIndex];
+		const nextBreakpointIndex = indexOf(MediaConfig.breakpointValues, breakpoint) + 1;
+		const nextBreakpoint = MediaConfig.breakpointValues[nextBreakpointIndex];
 		const breakpointMax = this.config.breakpoints[nextBreakpoint];
 		const breakpointMin = this.config.breakpoints[breakpoint];
 

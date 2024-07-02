@@ -1,10 +1,10 @@
-import { MEDIA_CONFIG } from './media.config';
+import { MediaConfig } from './media.config';
 
 describe('KsMediaConfig', () => {
 	it('should have the proper values', () => {
-		expect(MEDIA_CONFIG.maxScreenRange).toBe(0.02);
-		expect(MEDIA_CONFIG.breakpointValues).toEqual(['xs', 'sm', 'md', 'lg', 'xl', 'xxl']);
-		expect(MEDIA_CONFIG.breakpoints).toEqual({
+		expect(MediaConfig.maxScreenRange).toBe(0.02);
+		expect(MediaConfig.breakpointValues).toEqual(['xs', 'sm', 'md', 'lg', 'xl', 'xxl']);
+		expect(MediaConfig.breakpoints).toEqual({
 			lg: 992,
 			md: 768,
 			sm: 576,

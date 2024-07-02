@@ -7,7 +7,7 @@ import { MediaBreakpoint, MediaBreakpoints } from '../../interfaces';
  *
  * This config is not a part of package
  * */
-export abstract class MEDIA_CONFIG {
+export abstract class MediaConfig {
 	public static readonly breakpointValues: Breakpoint[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
 	public static readonly deviceBreakpoint: MediaBreakpoint = 'md';
 
