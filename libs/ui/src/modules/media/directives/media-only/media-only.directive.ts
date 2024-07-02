@@ -1,6 +1,6 @@
-import { Directive, effect, input, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
+import { DestroyRef, Directive, effect, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Breakpoint } from '@kiforks/core';
-import { SubSink } from 'subsink';
 
 import { MediaService } from '../../services';
 
@@ -8,28 +8,22 @@ import { MediaService } from '../../services';
 	selector: '[ksMediaOnly]',
 	standalone: true,
 })
-export class MediaOnlyDirective implements OnDestroy {
+export class MediaOnlyDirective {
 	public readonly breakpoint = input.required<Breakpoint>({ alias: 'ksMediaOnly' });
 
-	private readonly subs = new SubSink();
+	private readonly mediaService = inject(MediaService);
+	private readonly templateRef = inject(TemplateRef<null>);
+	private readonly viewContainerRef = inject(ViewContainerRef);
+	private readonly destroyRef = inject(DestroyRef);
 
-	constructor(
-		private readonly mediaService: MediaService,
-		private readonly templateRef: TemplateRef<null>,
-		private readonly viewContainerRef: ViewContainerRef
-	) {
-		effect(() => {
-			this.subs.unsubscribe();
-
-			this.subs.sink = this.mediaService
+	constructor() {
+		effect(() =>
+			this.mediaService
 				.mediaOnly(this.breakpoint())
+				.pipe(takeUntilDestroyed(this.destroyRef))
 				.subscribe(isMatched =>
 					isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
-				);
-		});
-	}
-
-	public ngOnDestroy(): void {
-		this.subs.unsubscribe();
+				)
+		);
 	}
 }

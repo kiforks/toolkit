@@ -1,5 +1,5 @@
-import { Directive, effect, input, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
-import { SubSink } from 'subsink';
+import { DestroyRef, Directive, effect, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MediaService } from '../../services';
 
@@ -9,28 +9,22 @@ import { MediaBetweenBreakpoints } from '../../interfaces';
 	selector: '[ksMediaBetween]',
 	standalone: true,
 })
-export class MediaBetweenDirective implements OnDestroy {
+export class MediaBetweenDirective {
 	public readonly fromToBreakpoints = input.required<MediaBetweenBreakpoints>({ alias: 'ksMediaBetween' });
 
-	private readonly subs = new SubSink();
+	private readonly mediaService = inject(MediaService);
+	private readonly templateRef = inject(TemplateRef<null>);
+	private readonly viewContainerRef = inject(ViewContainerRef);
+	private readonly destroyRef = inject(DestroyRef);
 
-	constructor(
-		private readonly mediaService: MediaService,
-		private readonly templateRef: TemplateRef<null>,
-		private readonly viewContainerRef: ViewContainerRef
-	) {
-		effect(() => {
-			this.subs.unsubscribe();
-
-			this.subs.sink = this.mediaService
+	constructor() {
+		effect(() =>
+			this.mediaService
 				.mediaBetween(this.fromToBreakpoints())
+				.pipe(takeUntilDestroyed(this.destroyRef))
 				.subscribe(isMatched =>
 					isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
-				);
-		});
-	}
-
-	public ngOnDestroy(): void {
-		this.subs.unsubscribe();
+				)
+		);
 	}
 }

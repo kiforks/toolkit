@@ -1,4 +1,4 @@
-import { Directive, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, inject, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { MediaService } from '../../services';
 
@@ -7,14 +7,12 @@ import { MediaService } from '../../services';
 	standalone: true,
 })
 export class MediaDataDirective {
-	private readonly context: MediaService = this.mediaService;
+	private readonly mediaService = inject(MediaService);
+	private readonly templateRef = inject(TemplateRef<MediaService>);
+	private readonly viewContainerRef = inject(ViewContainerRef);
 
-	constructor(
-		private readonly mediaService: MediaService,
-		private readonly templateRef: TemplateRef<MediaService>,
-		private readonly viewContainerRef: ViewContainerRef
-	) {
-		this.viewContainerRef.createEmbeddedView(this.templateRef, this.context);
+	constructor() {
+		this.viewContainerRef.createEmbeddedView(this.templateRef, this.mediaService);
 	}
 
 	public static ngTemplateContextGuard(_dir: MediaDataDirective, _ctx: unknown): _ctx is MediaService {
