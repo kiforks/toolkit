@@ -1,5 +1,5 @@
-import { Directive, effect, inject, TemplateRef, ViewContainerRef } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Directive, inject, TemplateRef, ViewContainerRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MediaService } from '../../services';
 
@@ -12,11 +12,11 @@ export class MediaDesktopDirective {
 	private readonly templateRef = inject(TemplateRef<null>);
 	private readonly viewContainerRef = inject(ViewContainerRef);
 
-	private readonly mediaDesktop = toSignal(this.mediaService.mediaDesktop);
-
 	constructor() {
-		effect(() =>
-			this.mediaDesktop() ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
-		);
+		this.mediaService.mediaDesktop
+			.pipe(takeUntilDestroyed())
+			.subscribe(isMatched =>
+				isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
+			);
 	}
 }

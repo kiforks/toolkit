@@ -1,5 +1,5 @@
-import { Directive, effect, inject, TemplateRef, ViewContainerRef } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Directive, inject, TemplateRef, ViewContainerRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MediaService } from '../../services';
 
@@ -12,11 +12,11 @@ export class MediaMobileDirective {
 	private readonly templateRef = inject(TemplateRef<null>);
 	private readonly viewContainerRef = inject(ViewContainerRef);
 
-	private readonly mediaMobile = toSignal(this.mediaService.mediaMobile);
-
 	constructor() {
-		effect(() =>
-			this.mediaMobile() ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
-		);
+		this.mediaService.mediaMobile
+			.pipe(takeUntilDestroyed())
+			.subscribe(isMatched =>
+				isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
+			);
 	}
 }

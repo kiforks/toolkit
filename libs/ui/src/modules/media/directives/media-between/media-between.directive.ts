@@ -1,5 +1,6 @@
-import { DestroyRef, Directive, effect, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Directive, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { switchMap } from 'rxjs';
 
 import { MediaService } from '../../services';
 
@@ -15,16 +16,17 @@ export class MediaBetweenDirective {
 	private readonly mediaService = inject(MediaService);
 	private readonly templateRef = inject(TemplateRef<null>);
 	private readonly viewContainerRef = inject(ViewContainerRef);
-	private readonly destroyRef = inject(DestroyRef);
+
+	private readonly fromToBreakpoints$ = toObservable(this.fromToBreakpoints);
 
 	constructor() {
-		effect(() =>
-			this.mediaService
-				.mediaBetween(this.fromToBreakpoints())
-				.pipe(takeUntilDestroyed(this.destroyRef))
-				.subscribe(isMatched =>
-					isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
-				)
-		);
+		this.fromToBreakpoints$
+			.pipe(
+				switchMap(breakpoints => this.mediaService.mediaBetween(breakpoints)),
+				takeUntilDestroyed()
+			)
+			.subscribe(isMatched =>
+				isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
+			);
 	}
 }

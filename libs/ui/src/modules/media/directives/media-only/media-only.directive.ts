@@ -1,6 +1,7 @@
-import { DestroyRef, Directive, effect, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Directive, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Breakpoint } from '@kiforks/core';
+import { switchMap } from 'rxjs';
 
 import { MediaService } from '../../services';
 
@@ -14,16 +15,17 @@ export class MediaOnlyDirective {
 	private readonly mediaService = inject(MediaService);
 	private readonly templateRef = inject(TemplateRef<null>);
 	private readonly viewContainerRef = inject(ViewContainerRef);
-	private readonly destroyRef = inject(DestroyRef);
+
+	private readonly breakpoint$ = toObservable(this.breakpoint);
 
 	constructor() {
-		effect(() =>
-			this.mediaService
-				.mediaOnly(this.breakpoint())
-				.pipe(takeUntilDestroyed(this.destroyRef))
-				.subscribe(isMatched =>
-					isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
-				)
-		);
+		this.breakpoint$
+			.pipe(
+				switchMap(breakpoint => this.mediaService.mediaOnly(breakpoint)),
+				takeUntilDestroyed()
+			)
+			.subscribe(isMatched =>
+				isMatched ? this.viewContainerRef.createEmbeddedView(this.templateRef) : this.viewContainerRef.clear()
+			);
 	}
 }
