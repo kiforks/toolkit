@@ -3,17 +3,21 @@ import { InjectionToken } from '@angular/core';
 import { MediaConfig, MediaDevice, MediaElement } from '../interfaces';
 
 /**
- * @private
- *
  * This config is not a part of package
  * Injection token for providing partial configuration for the media service.
  *
- * @remarks
- * This token is used to provide a partial configuration for the media service in Angular applications.
- *
- * @typeparam Partial<KsMediaConfig> - Partial configuration object for the media service.
+ * @remarks this token is used to provide a partial configuration for the media service in Angular applications.
  */
 export const MEDIA_CONFIG_TOKEN = new InjectionToken<Partial<MediaConfig>>('MEDIA_CONFIG');
 
+/**
+ * Used here:
+ * @see libs/ui/src/modules/media/directives/media-base/media-base.directive.ts
+ */
 export const MEDIA_ELEMENT = new InjectionToken<MediaElement>('MEDIA_ELEMENT');
+
+/**
+ * Used here:
+ * @see libs/ui/src/modules/media/directives/media-device/media-device.directive.ts
+ */
 export const MEDIA_DEVICE = new InjectionToken<MediaDevice>('MEDIA_DEVICE');

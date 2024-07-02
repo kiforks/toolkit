@@ -9,8 +9,7 @@ import { MEDIA_CONFIG_TOKEN } from '../tokens/media.token';
 /**
  * Provides a configuration object for the MediaService.
  *
- * @remarks
- * This function generates a provider array to configure the MediaService with the provided partial configuration.
+ * @remarks this function generates a provider array to configure the MediaService with the provided partial configuration.
  */
 export const provideMediaConfig = (config: Partial<MediaConfig>): Provider[] => [
 	MediaService,

@@ -2,6 +2,18 @@ import { Directive, inject, TemplateRef, ViewContainerRef } from '@angular/core'
 
 import { MediaService } from '../../services';
 
+/**
+ * This directive is intended to enable us to receive our "media" data from the "MediaService" directly into HTML.
+ *
+ * Example usage in the DOM:
+ * ```html
+ * <some-component
+ * 	 *mediaData="let mediaMobile = mediaMobile; let mediaDesktop = mediaDesktop"
+ * 	 [icon]="(mediaMobile | async) ? 'icon-1' : 'icon-2'"
+ * 	 [isTransparent]="!!(mediaDesktop | async)"
+ * ></some-component>
+ * ```
+ */
 @Directive({
 	selector: '[ksMediaData]',
 	standalone: true,

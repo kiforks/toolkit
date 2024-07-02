@@ -16,6 +16,8 @@ import { MEDIA_CONFIG_TOKEN } from '../../tokens/media.token';
 
 /**
  * Service for handling media-min queries via breakpoints.
+ *
+ * @see libs/ui/scss/utilities/media/mixins/_media.scss
  */
 @Injectable({ providedIn: 'root' })
 export class MediaService {

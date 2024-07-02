@@ -20,7 +20,7 @@ export abstract class MEDIA_CONFIG {
 	public static readonly maxScreenRange = 0.02;
 	/**
 	 * Breakpoints were taken from:
-	 * @see https://getbootstrap.com/docs/5.0/layout/breakpoints/
+	 * @see libs/ui/scss/utilities/media/variables/_breakpoints.scss
 	 * */
 	public static readonly breakpoints: MediaBreakpoints = {
 		/**

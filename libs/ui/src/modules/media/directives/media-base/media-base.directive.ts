@@ -5,7 +5,25 @@ import { distinctUntilChanged, switchMap, tap } from 'rxjs';
 import { MEDIA_ELEMENT } from '../../tokens';
 
 /**
- * @private
+ * The `MediaBaseDirective` is designed to manage the display of elements based on media queries (like screen size breakpoints).
+ * This directive listens to breakpoint changes and conditionally displays or hides elements based on whether the media query matches.
+ *
+ * Example of using `MediaBaseDirective` as a host directive in combination with the token and interface it implements.
+ * ```typescript
+ * @Directive({
+ *     selector: '[someDirective]',
+ *     standalone: true,
+ *     providers: [{ provide: MEDIA_ELEMENT, useExisting: MediaMaxDirective }],
+ *     hostDirectives: [MediaBaseDirective],
+ * })
+ * export class MediaMaxDirective implements MediaElement {
+ *     // Defines the breakpoint input for the directive.
+ *     public readonly breakpoint = input.required<MediaBreakpoint>();
+ *
+ *     // Injects the MediaService to use its 'mediaMax' method for checking media queries.
+ *     public readonly checkMedia = inject(MediaService).mediaMax;
+ * }
+ * ```
  */
 @Directive({
 	selector: '[ksMediaBase]',
@@ -21,8 +39,11 @@ export class MediaBaseDirective {
 	constructor() {
 		this.breakpoint$
 			.pipe(
+				// Clears the view container before processing a new breakpoint.
 				tap(() => this.viewContainerRef.clear()),
+				// Each time the breakpoint is changed, it destroys the old subscription and works only with the new value.
 				switchMap(breakpoint => this.mediaElement.checkMedia(breakpoint)),
+				// Prevents double rendering of the template
 				distinctUntilChanged(),
 				takeUntilDestroyed()
 			)

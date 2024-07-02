@@ -11,7 +11,7 @@ import { MediaService } from '../../services';
  *
  * @example
  * const routes: Routes = [
- *   { path: 'example', component: ExampleComponent, canActivate: [mdiaOnlyGuard('md')] }
+ *   { path: 'example', component: ExampleComponent, canActivate: [mediaOnlyGuard('md')] }
  * ];
  */
 export const mediaOnlyGuard: (breakpoint: Breakpoint) => CanActivateFn = (breakpoint: Breakpoint) => (): boolean => {

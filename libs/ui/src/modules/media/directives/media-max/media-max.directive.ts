@@ -8,6 +8,20 @@ import { MediaBreakpoint, MediaElement } from '../../interfaces';
 
 import { MEDIA_ELEMENT } from '../../tokens';
 
+/**
+ * The `MediaMaxDirective` is designed to handle `max-width` media queries.
+ * It uses the `MediaBaseDirective` as a host directive to leverage its logic for media query handling.
+ *
+ * Example usage in the DOM:
+ * ```html
+ * <div *ksMediaMax="'lg'">
+ *   This content will only be displayed for screen sizes up to the 'lg' breakpoint.
+ * </div>
+ * ```
+ *
+ * This directive is identical to the "media-min" mixin you can see here::
+ * @see libs/ui/scss/utilities/media/mixins/_media-max.scss
+ */
 @Directive({
 	selector: '[ksMediaMax]',
 	standalone: true,
