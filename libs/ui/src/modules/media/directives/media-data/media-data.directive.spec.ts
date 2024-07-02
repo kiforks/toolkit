@@ -6,7 +6,7 @@ import { MediaServiceMock } from '../../mocks';
 
 import { provideMediaServiceMock } from '../../providers';
 
-describe('KsMediaDataDirective', () => {
+describe('MediaDataDirective', () => {
 	let spectator: SpectatorDirective<MediaDataDirective>;
 
 	const createDirective = createDirectiveFactory(MediaDataDirective);

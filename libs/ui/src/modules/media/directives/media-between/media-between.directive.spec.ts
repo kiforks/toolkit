@@ -9,7 +9,7 @@ import { MediaBetweenBreakpoints } from '../../interfaces';
 
 import { provideMediaServiceMock } from '../../providers';
 
-describe('KsMediaBetweenDirective', () => {
+describe('MediaBetweenDirective', () => {
 	let spectator: SpectatorDirective<MediaBetweenDirective>;
 	let directivePO: MediaBetweenDirectivePO;
 

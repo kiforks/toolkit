@@ -9,7 +9,7 @@ import { MediaBreakpoint } from '../../interfaces';
 
 import { provideMediaServiceMock } from '../../providers';
 
-describe('KsMediaMaxDirective', () => {
+describe('MediaMaxDirective', () => {
 	let spectator: SpectatorDirective<MediaMaxDirective>;
 	let directivePO: MediaMaxDirectivePO;
 

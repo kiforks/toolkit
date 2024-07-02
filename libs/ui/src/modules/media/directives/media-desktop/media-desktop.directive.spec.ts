@@ -7,7 +7,7 @@ import { MediaServiceMock } from '../../mocks';
 
 import { provideMediaServiceMock } from '../../providers';
 
-describe('KsMediaDesktopDirective', () => {
+describe('MediaDesktopDirective', () => {
 	let spectator: SpectatorDirective<MediaDesktopDirective>;
 	let directivePO: MediaDesktopDirectivePo;
 
