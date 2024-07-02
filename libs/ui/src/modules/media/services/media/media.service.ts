@@ -32,6 +32,9 @@ export class MediaService {
 	 * Media of mobile screen maximum breakpoint width.
 	 * No query for the largest breakpoint.
 	 * Makes the content apply to the given breakpoint and narrower.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-mobile.scss
 	 */
 	public get mediaMobile(): Observable<boolean> {
 		return this.mediaMax(this.config.deviceBreakpoint);
@@ -41,6 +44,9 @@ export class MediaService {
 	 * Media of desktop screen maximum breakpoint width.
 	 * No query for the smallest breakpoint.
 	 * Makes the content apply to the given breakpoint and wider.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-desktop.scss
 	 */
 	public get mediaDesktop(): Observable<boolean> {
 		return this.mediaMin(this.config.deviceBreakpoint);
@@ -50,6 +56,9 @@ export class MediaService {
 	 * Media of at least the minimum breakpoint width.
 	 * No query for the smallest breakpoint
 	 * Is matched apply to the given breakpoint and wider.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-min.scss
 	 */
 	@Bind public mediaMin(breakpoint: MediaBreakpoint): Observable<boolean> {
 		return this.getBreakpointValue(breakpoint, 'min');
@@ -59,6 +68,9 @@ export class MediaService {
 	 * Media of at most the maximum breakpoint width.
 	 * No query for the largest breakpoint.
 	 * Is matched apply to the given breakpoint and narrower.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-max.scss
 	 */
 	@Bind public mediaMax(breakpoint: MediaBreakpoint): Observable<boolean> {
 		return this.getBreakpointValue(breakpoint);
@@ -67,6 +79,9 @@ export class MediaService {
 	/**
 	 * Media that spans multiple breakpoint widths.
 	 * Is matched apply between the min and max breakpoints.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-between.scss
 	 */
 	@Bind public mediaBetween([breakpointFrom, breakpointTo]: MediaBetweenBreakpoints): Observable<boolean> {
 		const breakpointMin = this.config.breakpoints[breakpointFrom];
@@ -79,6 +94,9 @@ export class MediaService {
 	 * Media between the breakpoints minimum and maximum widths.
 	 * No minimum for the smallest breakpoint, and no maximum for the largest one.
 	 * Is matched apply only to the given breakpoint, not viewports any wider or narrower.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-only.scss
 	 */
 	@Bind public mediaOnly(breakpoint: Breakpoint): Observable<boolean> {
 		if (breakpoint === 'xs') {
