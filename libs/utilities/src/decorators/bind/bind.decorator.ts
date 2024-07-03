@@ -4,15 +4,16 @@
  * @param propertyKey The name of the property being decorated.
  * @param descriptor The property descriptor for the decorated property.
  * @returns The updated property descriptor or void.
- * @example
- * class Example {
- *   @Bind
- *   method() {
+ *
+ * Example:
+ * ```typescript
+ * class ExampleClass {
+ *   @Bind public method(): void {
  *     console.log(this instanceof Example); // true
  *   }
  * }
  *
- * const instance = new Example();
+ * const instance = new ExampleClass();
  * const boundMethod = instance.method;
  * boundMethod(); // logs: true
  *

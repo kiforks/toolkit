@@ -1,3 +1,5 @@
+import { coerceCssPixelValue } from '@angular/cdk/coercion';
+
 import { MediaConfig } from '../../configs/media/media.config';
 
 /**
@@ -16,7 +18,7 @@ export abstract class MediaHelper {
 	public static getMaxWidth(breakpoint: number): string {
 		const value = breakpoint - MediaConfig.maxScreenRange;
 
-		return `(max-width: ${value}px)`;
+		return `(max-width: ${coerceCssPixelValue(value)})`;
 	}
 
 	/**
@@ -29,6 +31,6 @@ export abstract class MediaHelper {
 	 * ```
 	 */
 	public static getMinWidth(breakpoint: number): string {
-		return `(min-width: ${breakpoint}px)`;
+		return `(min-width: ${coerceCssPixelValue(breakpoint)})`;
 	}
 }
