@@ -1,4 +1,4 @@
-import { InputSignal } from '@angular/core';
+import { InputSignal, WritableSignal } from '@angular/core';
 import { Breakpoint } from '@kiforks/core';
 import { Observable } from 'rxjs';
 
@@ -21,6 +21,7 @@ export interface MediaElement<B = MediaBreakpoint> {
 	readonly breakpoint: InputSignal<B>;
 
 	readonly checkMedia: (breakpoint: B) => Observable<boolean>;
+	readonly condition: WritableSignal<boolean>;
 }
 
 export interface MediaDevice {
