@@ -1,9 +1,10 @@
-import { Injector, input, runInInjectionContext } from '@angular/core';
+import { Injector, input, runInInjectionContext, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { MediaBreakpoint, MediaElement } from '../interfaces';
 
 export class MediaElementMock implements MediaElement {
+	public readonly condition = signal(false);
 	public readonly breakpoint = runInInjectionContext(Injector.create({ providers: [] }), () =>
 		input<MediaBreakpoint>('md')
 	);
@@ -16,5 +17,9 @@ export class MediaElementMock implements MediaElement {
 		this.isMatched$.next(value);
 
 		return this;
+	}
+
+	public setCondition(value: boolean): void {
+		this.condition.set(value);
 	}
 }
