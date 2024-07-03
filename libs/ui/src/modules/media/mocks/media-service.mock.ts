@@ -2,13 +2,13 @@ import { Breakpoint } from '@kiforks/core';
 import { Bind } from '@kiforks/utilities';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { KsMediaService } from '../services';
+import { MediaService } from '../services';
 
-import { KsMediaBetweenBreakpoints, KsMediaBreakpoint } from '../interfaces';
+import { MediaBetweenBreakpoints, MediaBreakpoint } from '../interfaces';
 
-export class KsMediaServiceMock
+export class MediaServiceMock
 	implements
-		Pick<KsMediaService, 'mediaBetween' | 'mediaDesktop' | 'mediaMax' | 'mediaMin' | 'mediaMobile' | 'mediaOnly'>
+		Pick<MediaService, 'mediaBetween' | 'mediaDesktop' | 'mediaMax' | 'mediaMin' | 'mediaMobile' | 'mediaOnly'>
 {
 	private readonly _mediaDesktop = new BehaviorSubject(true);
 	private readonly _mediaMobile = new BehaviorSubject(false);
@@ -75,15 +75,15 @@ export class KsMediaServiceMock
 		return this;
 	}
 
-	@Bind public mediaMin(_breakpoint: KsMediaBreakpoint): Observable<boolean> {
+	@Bind public mediaMin(_breakpoint: MediaBreakpoint): Observable<boolean> {
 		return this._mediaMin;
 	}
 
-	@Bind public mediaMax(_breakpoint: KsMediaBreakpoint): Observable<boolean> {
+	@Bind public mediaMax(_breakpoint: MediaBreakpoint): Observable<boolean> {
 		return this._mediaMax;
 	}
 
-	@Bind public mediaBetween([_breakpointFrom, _breakpointTo]: KsMediaBetweenBreakpoints): Observable<boolean> {
+	@Bind public mediaBetween([_breakpointFrom, _breakpointTo]: MediaBetweenBreakpoints): Observable<boolean> {
 		return this._mediaBetween;
 	}
 

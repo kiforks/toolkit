@@ -1,18 +1,18 @@
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator/jest';
 
-import { KsMediaDataDirective } from './media-data.directive';
+import { MediaDataDirective } from './media-data.directive';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
-describe('KsMediaDataDirective', () => {
-	let spectator: SpectatorDirective<KsMediaDataDirective>;
+describe('MediaDataDirective', () => {
+	let spectator: SpectatorDirective<MediaDataDirective>;
 
-	const createDirective = createDirectiveFactory(KsMediaDataDirective);
+	const createDirective = createDirectiveFactory(MediaDataDirective);
 
 	it('should render value when all media-min values are matched', () => {
-		const mediaServiceMock = new KsMediaServiceMock().setMediaAll(true);
+		const mediaServiceMock = new MediaServiceMock().setMediaAll(true);
 
 		spectator = createDirective(
 			`
@@ -34,7 +34,7 @@ describe('KsMediaDataDirective', () => {
 					Media only: {{ mediaOnly('md') | async }}
 				</div>
 			`,
-			{ providers: [provideKsMediaServiceMock(mediaServiceMock)] }
+			{ providers: [provideMediaServiceMock(mediaServiceMock)] }
 		);
 
 		expect(spectator.element).toHaveExactTrimmedText(
@@ -43,7 +43,7 @@ describe('KsMediaDataDirective', () => {
 	});
 
 	it('should render value when all media-min values are not matched', () => {
-		const mediaServiceMock = new KsMediaServiceMock().setMediaAll(false);
+		const mediaServiceMock = new MediaServiceMock().setMediaAll(false);
 
 		spectator = createDirective(
 			`
@@ -65,7 +65,7 @@ describe('KsMediaDataDirective', () => {
 					Media only: {{ mediaOnly('md') | async }}
 				</div>
 			`,
-			{ providers: [provideKsMediaServiceMock(mediaServiceMock)] }
+			{ providers: [provideMediaServiceMock(mediaServiceMock)] }
 		);
 
 		expect(spectator.element).toHaveExactTrimmedText(

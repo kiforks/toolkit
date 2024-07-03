@@ -1,0 +1,24 @@
+@use '../functions';
+@use '../variables/breakpoints';
+
+/* stylelint-disable media-feature-name-disallowed-list, media-query-no-invalid */
+// Media that spans multiple breakpoint widths.
+// Makes the @content apply between the min and max breakpoints
+@mixin media-between($lower, $upper, $grid-breakpoints: breakpoints.$breakpoints) {
+	$min: functions.breakpoint-min($lower, $grid-breakpoints);
+	$max: functions.breakpoint-max($upper, $grid-breakpoints);
+
+	@if $min != null and $max != null {
+		@media (min-width: $min) and (max-width: $max) {
+			@content;
+		}
+	} @else if $max == null {
+		@include media-min($lower, $grid-breakpoints) {
+			@content;
+		}
+	} @else if $min == null {
+		@include media-max($upper, $grid-breakpoints) {
+			@content;
+		}
+	}
+}

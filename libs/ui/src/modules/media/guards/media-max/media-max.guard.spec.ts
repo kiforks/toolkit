@@ -3,23 +3,23 @@ import { Injector, runInInjectionContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
-import { KsMediaService } from '../../services';
-import { ksMediaMaxGuard } from './media-max.guard';
+import { MediaService } from '../../services';
+import { mediaMaxGuard } from './media-max.guard';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
-describe('ksMediaMaxGuard', () => {
+describe('mediaMaxGuard', () => {
 	let injector: Injector;
 	let router: Router;
 	let route: ActivatedRouteSnapshot;
 
-	const mediaServiceMock = new KsMediaServiceMock();
+	const mediaServiceMock = new MediaServiceMock();
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			providers: [KsMediaService, MockProvider(ActivatedRouteSnapshot), provideKsMediaServiceMock(mediaServiceMock)],
+			providers: [MediaService, MockProvider(ActivatedRouteSnapshot), provideMediaServiceMock(mediaServiceMock)],
 		});
 
 		injector = TestBed.inject(Injector);
@@ -31,14 +31,12 @@ describe('ksMediaMaxGuard', () => {
 	it('should allow access when media service returns true', () => {
 		mediaServiceMock.setMediaMax(true);
 
-		runInInjectionContext(injector, () => expect(ksMediaMaxGuard('md')(route, router.routerState.snapshot)).toBe(true));
+		runInInjectionContext(injector, () => expect(mediaMaxGuard('md')(route, router.routerState.snapshot)).toBe(true));
 	});
 
 	it('should disallow access when media service returns true', () => {
 		mediaServiceMock.setMediaMax(false);
 
-		runInInjectionContext(injector, () =>
-			expect(ksMediaMaxGuard('md')(route, router.routerState.snapshot)).toBe(false)
-		);
+		runInInjectionContext(injector, () => expect(mediaMaxGuard('md')(route, router.routerState.snapshot)).toBe(false));
 	});
 });

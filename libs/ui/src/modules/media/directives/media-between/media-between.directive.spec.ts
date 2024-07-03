@@ -1,56 +1,130 @@
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator/jest';
 
-import { KsMediaBetweenDirective } from './media-between.directive';
+import { MediaBetweenDirective } from './media-between.directive';
 import { MediaBetweenDirectivePO } from './media-between.directive.po';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { KsMediaBetweenBreakpoints } from '../../interfaces';
+import { MediaBetweenBreakpoints } from '../../interfaces';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
-describe('KsMediaBetweenDirective', () => {
-	let spectator: SpectatorDirective<KsMediaBetweenDirective>;
+describe('MediaBetweenDirective', () => {
+	let spectator: SpectatorDirective<MediaBetweenDirective>;
 	let directivePO: MediaBetweenDirectivePO;
 
-	const createDirective = createDirectiveFactory(KsMediaBetweenDirective);
+	const createDirective = createDirectiveFactory(MediaBetweenDirective);
 
-	it('should dynamically render directive content', () => {
-		const mediaServiceMock = new KsMediaServiceMock().setMediaBetween(true);
-		const breakpoints: KsMediaBetweenBreakpoints = ['sm', 'lg'];
+	const validElements = (po: MediaBetweenDirectivePO): void => {
+		expect(po.element).toExist();
+		expect(po.elements).toHaveLength(1);
+	};
+
+	const invalidElements = (po: MediaBetweenDirectivePO): void => {
+		expect(po.element).not.toExist();
+		expect(po.elements).toHaveLength(0);
+	};
+
+	const validConditionalElement = (po: MediaBetweenDirectivePO): void => {
+		validElements(po);
+		expect(directivePO.template).not.toExist();
+	};
+
+	const invalidConditionalElement = (po: MediaBetweenDirectivePO): void => {
+		invalidElements(po);
+		expect(directivePO.template).toExist();
+	};
+
+	it('should render directive content based on media breakpoints', () => {
+		const mediaServiceMock = new MediaServiceMock().setMediaBetween(true);
+		const breakpoints: MediaBetweenBreakpoints = ['sm', 'lg'];
+
 		const spyOnMediaBetween = jest.spyOn(mediaServiceMock, 'mediaBetween');
 
 		spectator = createDirective(
 			`
 				<div
 					*ksMediaBetween="breakpoints"
-					test
+					data-po="element"
 				>
 					Test
 				</div>
 			`,
-			{ providers: [provideKsMediaServiceMock(mediaServiceMock)], hostProps: { breakpoints } }
+			{ providers: [provideMediaServiceMock(mediaServiceMock)], hostProps: { breakpoints } }
 		);
 
 		directivePO = new MediaBetweenDirectivePO(spectator);
 
-		expect(directivePO.element).toExist();
+		validElements(directivePO);
 		expect(spyOnMediaBetween).toHaveBeenNthCalledWith(1, breakpoints);
 
-		const fromXLToXXL: KsMediaBetweenBreakpoints = ['xl', 'xxl'];
+		const fromXLToXXL: MediaBetweenBreakpoints = ['xl', 'xxl'];
 
 		mediaServiceMock.setMediaBetween(false);
 		spectator.setHostInput({ breakpoints: fromXLToXXL });
 
-		expect(directivePO.element).not.toExist();
+		invalidElements(directivePO);
 		expect(spyOnMediaBetween).toHaveBeenNthCalledWith(2, fromXLToXXL);
 
-		const fromXSToMD: KsMediaBetweenBreakpoints = ['xs', 'md'];
+		const fromXSToMD: MediaBetweenBreakpoints = ['xs', 'md'];
 
 		mediaServiceMock.setMediaBetween(true);
 		spectator.setHostInput({ breakpoints: fromXSToMD });
 
-		expect(directivePO.element).toExist();
+		validElements(directivePO);
 		expect(spyOnMediaBetween).toHaveBeenNthCalledWith(3, fromXSToMD);
+	});
+
+	it('should render directive content with complex conditions', () => {
+		const mediaServiceMock = new MediaServiceMock().setMediaBetween(true);
+		const breakpoints: MediaBetweenBreakpoints = ['sm', 'lg'];
+
+		spectator = createDirective(
+			`
+				<div
+					*ksMediaBetween="['md', 'lg']; or: orCondition; and: andCondition; else templateRef;"
+					data-po="element"
+				>
+					Test
+				</div>
+				
+				<ng-template #templateRef>
+					<span data-po="template">Template content</span>
+				</ng-template>
+			`,
+			{
+				providers: [provideMediaServiceMock(mediaServiceMock)],
+				hostProps: { breakpoints, orCondition: false, andCondition: true },
+			}
+		);
+
+		directivePO = new MediaBetweenDirectivePO(spectator);
+
+		validConditionalElement(directivePO);
+
+		mediaServiceMock.setMediaBetween(false);
+		spectator.detectChanges();
+
+		invalidConditionalElement(directivePO);
+
+		spectator.setHostInput({ orCondition: true });
+		spectator.detectChanges();
+
+		validConditionalElement(directivePO);
+
+		spectator.setHostInput({ andCondition: false });
+		spectator.detectChanges();
+
+		invalidConditionalElement(directivePO);
+
+		mediaServiceMock.setMediaBetween(true);
+		spectator.detectChanges();
+
+		invalidConditionalElement(directivePO);
+
+		spectator.setHostInput({ andCondition: true });
+		spectator.detectChanges();
+
+		validConditionalElement(directivePO);
 	});
 });

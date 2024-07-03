@@ -1,4 +1,6 @@
-import { KS_MEDIA_CONFIG } from '../../configs/media/media.config';
+import { coerceCssPixelValue } from '@angular/cdk/coercion';
+
+import { MediaConfig } from '../../configs/media/media.config';
 
 /**
  * Helper class for generating media-min query strings.
@@ -14,9 +16,9 @@ export abstract class MediaHelper {
 	 * ```
 	 */
 	public static getMaxWidth(breakpoint: number): string {
-		const value = breakpoint - KS_MEDIA_CONFIG.maxScreenRange;
+		const value = breakpoint - MediaConfig.maxScreenRange;
 
-		return `(max-width: ${value}px)`;
+		return `(max-width: ${coerceCssPixelValue(value)})`;
 	}
 
 	/**
@@ -29,6 +31,6 @@ export abstract class MediaHelper {
 	 * ```
 	 */
 	public static getMinWidth(breakpoint: number): string {
-		return `(min-width: ${breakpoint}px)`;
+		return `(min-width: ${coerceCssPixelValue(breakpoint)})`;
 	}
 }

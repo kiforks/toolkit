@@ -1,23 +1,43 @@
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator/jest';
 
-import { KsMediaMaxDirective } from './media-max.directive';
+import { MediaMaxDirective } from './media-max.directive';
 import { MediaMaxDirectivePO } from './media-max.directive.po';
 
-import { KsMediaServiceMock } from '../../mocks';
+import { MediaServiceMock } from '../../mocks';
 
-import { KsMediaBreakpoint } from '../../interfaces';
+import { MediaBreakpoint } from '../../interfaces';
 
-import { provideKsMediaServiceMock } from '../../providers';
+import { provideMediaServiceMock } from '../../providers';
 
-describe('KsMediaMaxDirective', () => {
-	let spectator: SpectatorDirective<KsMediaMaxDirective>;
+describe('MediaMaxDirective', () => {
+	let spectator: SpectatorDirective<MediaMaxDirective>;
 	let directivePO: MediaMaxDirectivePO;
 
-	const createDirective = createDirectiveFactory(KsMediaMaxDirective);
+	const createDirective = createDirectiveFactory(MediaMaxDirective);
 
-	it('should dynamically render directive content', () => {
-		const mediaServiceMock = new KsMediaServiceMock().setMediaMax(true);
-		const breakpoint: KsMediaBreakpoint = 'sm';
+	const validElements = (po: MediaMaxDirectivePO): void => {
+		expect(po.element).toExist();
+		expect(po.elements).toHaveLength(1);
+	};
+
+	const invalidElements = (po: MediaMaxDirectivePO): void => {
+		expect(po.element).not.toExist();
+		expect(po.elements).toHaveLength(0);
+	};
+
+	const validConditionalElement = (po: MediaMaxDirectivePO): void => {
+		validElements(po);
+		expect(directivePO.template).not.toExist();
+	};
+
+	const invalidConditionalElement = (po: MediaMaxDirectivePO): void => {
+		invalidElements(po);
+		expect(directivePO.template).toExist();
+	};
+
+	it('should render directive content based on media breakpoint', () => {
+		const mediaServiceMock = new MediaServiceMock().setMediaMax(true);
+		const breakpoint: MediaBreakpoint = 'sm';
 
 		const spyOnMediaMax = jest.spyOn(mediaServiceMock, 'mediaMax');
 
@@ -25,33 +45,86 @@ describe('KsMediaMaxDirective', () => {
 			`
 				<div
 					*ksMediaMax="breakpoint"
-					test
+					data-po="element"
 				>
 					Test
 				</div>
 			`,
-			{ providers: [provideKsMediaServiceMock(mediaServiceMock)], hostProps: { breakpoint } }
+			{ providers: [provideMediaServiceMock(mediaServiceMock)], hostProps: { breakpoint } }
 		);
 
 		directivePO = new MediaMaxDirectivePO(spectator);
 
-		expect(directivePO.element).toExist();
+		validElements(directivePO);
 		expect(spyOnMediaMax).toHaveBeenNthCalledWith(1, breakpoint);
 
-		const breakpointLG: KsMediaBreakpoint = 'lg';
+		const breakpointLG: MediaBreakpoint = 'lg';
 
 		mediaServiceMock.setMediaMax(false);
 		spectator.setHostInput({ breakpoint: breakpointLG });
 
-		expect(directivePO.element).not.toExist();
+		invalidElements(directivePO);
 		expect(spyOnMediaMax).toHaveBeenNthCalledWith(2, breakpointLG);
 
-		const breakpointXL: KsMediaBreakpoint = 'xl';
+		const breakpointXL: MediaBreakpoint = 'xl';
 
 		mediaServiceMock.setMediaMax(true);
 		spectator.setHostInput({ breakpoint: breakpointXL });
 
-		expect(directivePO.element).toExist();
+		validElements(directivePO);
 		expect(spyOnMediaMax).toHaveBeenNthCalledWith(3, breakpointXL);
+	});
+
+	it('should render directive content with complex conditions', () => {
+		const mediaServiceMock = new MediaServiceMock().setMediaMax(true);
+		const breakpoint: MediaBreakpoint = 'sm';
+
+		spectator = createDirective(
+			`
+				<div
+					*ksMediaMax="'md'; or: orCondition; and: andCondition; else templateRef;"
+					data-po="element"
+				>
+					Test
+				</div>
+				
+				<ng-template #templateRef>
+					<span data-po="template">Template content</span>
+				</ng-template>
+			`,
+			{
+				providers: [provideMediaServiceMock(mediaServiceMock)],
+				hostProps: { breakpoint, orCondition: false, andCondition: true },
+			}
+		);
+
+		directivePO = new MediaMaxDirectivePO(spectator);
+
+		validConditionalElement(directivePO);
+
+		mediaServiceMock.setMediaMax(false);
+		spectator.detectChanges();
+
+		invalidConditionalElement(directivePO);
+
+		spectator.setHostInput({ orCondition: true });
+		spectator.detectChanges();
+
+		validConditionalElement(directivePO);
+
+		spectator.setHostInput({ andCondition: false });
+		spectator.detectChanges();
+
+		invalidConditionalElement(directivePO);
+
+		mediaServiceMock.setMediaMax(true);
+		spectator.detectChanges();
+
+		invalidConditionalElement(directivePO);
+
+		spectator.setHostInput({ andCondition: true });
+		spectator.detectChanges();
+
+		validConditionalElement(directivePO);
 	});
 });

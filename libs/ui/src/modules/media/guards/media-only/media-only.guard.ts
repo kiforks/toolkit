@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { CanActivateFn } from '@angular/router';
 import { Breakpoint } from '@kiforks/core';
 
-import { KsMediaService } from '../../services';
+import { MediaService } from '../../services';
 
 /**
  * Guard to activate only on a specific media breakpoint.
@@ -11,11 +11,11 @@ import { KsMediaService } from '../../services';
  *
  * @example
  * const routes: Routes = [
- *   { path: 'example', component: ExampleComponent, canActivate: [ksMediaOnlyGuard('md')] }
+ *   { path: 'example', component: ExampleComponent, canActivate: [mediaOnlyGuard('md')] }
  * ];
  */
-export const ksMediaOnlyGuard: (breakpoint: Breakpoint) => CanActivateFn = (breakpoint: Breakpoint) => (): boolean => {
-	const mediaService = inject(KsMediaService);
+export const mediaOnlyGuard: (breakpoint: Breakpoint) => CanActivateFn = (breakpoint: Breakpoint) => (): boolean => {
+	const mediaService = inject(MediaService);
 	const isMatched = toSignal(mediaService.mediaOnly(breakpoint));
 
 	return !!isMatched();

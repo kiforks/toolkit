@@ -1,15 +1,15 @@
 import { Breakpoint } from '@kiforks/core';
 
-import { KsMediaBreakpoint, MediaBreakpoints } from '../../interfaces';
+import { MediaBreakpoint, MediaBreakpoints } from '../../interfaces';
 
 /**
  * @private
  *
  * This config is not a part of package
  * */
-export abstract class KS_MEDIA_CONFIG {
+export abstract class MediaConfig {
 	public static readonly breakpointValues: Breakpoint[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
-	public static readonly deviceBreakpoint: KsMediaBreakpoint = 'md';
+	public static readonly deviceBreakpoint: MediaBreakpoint = 'md';
 
 	/*
 	 * Browsers don’t currently support range context queries, so we work around the
@@ -20,7 +20,7 @@ export abstract class KS_MEDIA_CONFIG {
 	public static readonly maxScreenRange = 0.02;
 	/**
 	 * Breakpoints were taken from:
-	 * @see https://getbootstrap.com/docs/5.0/layout/breakpoints/
+	 * @see libs/ui/scss/utilities/media/variables/_breakpoints.scss
 	 * */
 	public static readonly breakpoints: MediaBreakpoints = {
 		/**

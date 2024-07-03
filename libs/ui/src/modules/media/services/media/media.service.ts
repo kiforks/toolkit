@@ -6,30 +6,35 @@ import { indexOf } from 'lodash';
 import { map, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
-import { KS_MEDIA_CONFIG } from '../../configs/media/media.config';
+import { MediaConfig } from '../../configs/media/media.config';
 
 import { MediaHelper } from '../../helpers';
 
-import { KsMediaBetweenBreakpoints, KsMediaBreakpoint, KsMediaConfig } from '../../interfaces';
+import { MediaBetweenBreakpoints, MediaBreakpoint, MediaConfigData } from '../../interfaces';
 
-import { KS_MEDIA_CONFIG_TOKEN } from '../../tokens/media.token';
+import { MEDIA_CONFIG } from '../../tokens/media.token';
 
 /**
  * Service for handling media-min queries via breakpoints.
+ *
+ * @see libs/ui/scss/utilities/media/mixins/_media.scss
  */
 @Injectable({ providedIn: 'root' })
-export class KsMediaService {
+export class MediaService {
 	private readonly breakpointObserver = inject(BreakpointObserver);
-	private readonly config: KsMediaConfig = {
-		breakpoints: KS_MEDIA_CONFIG.breakpoints,
-		deviceBreakpoint: KS_MEDIA_CONFIG.deviceBreakpoint,
-		...inject(KS_MEDIA_CONFIG_TOKEN, { optional: true }),
+	private readonly config: MediaConfigData = {
+		breakpoints: MediaConfig.breakpoints,
+		deviceBreakpoint: MediaConfig.deviceBreakpoint,
+		...inject(MEDIA_CONFIG, { optional: true }),
 	};
 
 	/**
 	 * Media of mobile screen maximum breakpoint width.
 	 * No query for the largest breakpoint.
 	 * Makes the content apply to the given breakpoint and narrower.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-mobile.scss
 	 */
 	public get mediaMobile(): Observable<boolean> {
 		return this.mediaMax(this.config.deviceBreakpoint);
@@ -39,6 +44,9 @@ export class KsMediaService {
 	 * Media of desktop screen maximum breakpoint width.
 	 * No query for the smallest breakpoint.
 	 * Makes the content apply to the given breakpoint and wider.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-desktop.scss
 	 */
 	public get mediaDesktop(): Observable<boolean> {
 		return this.mediaMin(this.config.deviceBreakpoint);
@@ -48,8 +56,11 @@ export class KsMediaService {
 	 * Media of at least the minimum breakpoint width.
 	 * No query for the smallest breakpoint
 	 * Is matched apply to the given breakpoint and wider.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-min.scss
 	 */
-	@Bind public mediaMin(breakpoint: KsMediaBreakpoint): Observable<boolean> {
+	@Bind public mediaMin(breakpoint: MediaBreakpoint): Observable<boolean> {
 		return this.getBreakpointValue(breakpoint, 'min');
 	}
 
@@ -57,16 +68,22 @@ export class KsMediaService {
 	 * Media of at most the maximum breakpoint width.
 	 * No query for the largest breakpoint.
 	 * Is matched apply to the given breakpoint and narrower.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-max.scss
 	 */
-	@Bind public mediaMax(breakpoint: KsMediaBreakpoint): Observable<boolean> {
+	@Bind public mediaMax(breakpoint: MediaBreakpoint): Observable<boolean> {
 		return this.getBreakpointValue(breakpoint);
 	}
 
 	/**
 	 * Media that spans multiple breakpoint widths.
 	 * Is matched apply between the min and max breakpoints.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-between.scss
 	 */
-	@Bind public mediaBetween([breakpointFrom, breakpointTo]: KsMediaBetweenBreakpoints): Observable<boolean> {
+	@Bind public mediaBetween([breakpointFrom, breakpointTo]: MediaBetweenBreakpoints): Observable<boolean> {
 		const breakpointMin = this.config.breakpoints[breakpointFrom];
 		const breakpointMax = this.config.breakpoints[breakpointTo];
 
@@ -77,6 +94,9 @@ export class KsMediaService {
 	 * Media between the breakpoints minimum and maximum widths.
 	 * No minimum for the smallest breakpoint, and no maximum for the largest one.
 	 * Is matched apply only to the given breakpoint, not viewports any wider or narrower.
+	 *
+	 * SCSS mixin:
+	 * @see libs/ui/scss/utilities/media/mixins/_media-only.scss
 	 */
 	@Bind public mediaOnly(breakpoint: Breakpoint): Observable<boolean> {
 		if (breakpoint === 'xs') {
@@ -87,15 +107,15 @@ export class KsMediaService {
 			return this.getBreakpointValue('xxl', 'min');
 		}
 
-		const nextBreakpointIndex = indexOf(KS_MEDIA_CONFIG.breakpointValues, breakpoint) + 1;
-		const nextBreakpoint = KS_MEDIA_CONFIG.breakpointValues[nextBreakpointIndex];
+		const nextBreakpointIndex = indexOf(MediaConfig.breakpointValues, breakpoint) + 1;
+		const nextBreakpoint = MediaConfig.breakpointValues[nextBreakpointIndex];
 		const breakpointMax = this.config.breakpoints[nextBreakpoint];
 		const breakpointMin = this.config.breakpoints[breakpoint];
 
 		return this.getBreakpointsBetween(breakpointMin, breakpointMax);
 	}
 
-	private getBreakpointValue(breakpoint: KsMediaBreakpoint, width: 'max' | 'min' = 'max'): Observable<boolean> {
+	private getBreakpointValue(breakpoint: MediaBreakpoint, width: 'max' | 'min' = 'max'): Observable<boolean> {
 		const breakpointValue = this.config.breakpoints[breakpoint];
 
 		const breakpointMax = MediaHelper.getMaxWidth(breakpointValue);
@@ -110,7 +130,7 @@ export class KsMediaService {
 
 		if (breakpointMin >= breakpointMax) {
 			throw new Error(
-				`"KsMediaService": the minimum value "${breakpointMinValue}" cannot be equal to or greater than the maximum value "${breakpointMaxValue}"`
+				`"MediaService": the minimum value "${breakpointMinValue}" cannot be equal to or greater than the maximum value "${breakpointMaxValue}"`
 			);
 		}
 

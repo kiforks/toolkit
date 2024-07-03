@@ -5,3 +5,5 @@ export * from './media-max/media-max.directive';
 export * from './media-min/media-min.directive';
 export * from './media-mobile/media-mobile.directive';
 export * from './media-only/media-only.directive';
+export * from './media-device/media-device.directive';
+export * from './media-base/media-base.directive';

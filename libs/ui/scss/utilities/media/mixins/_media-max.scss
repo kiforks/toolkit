@@ -1,0 +1,17 @@
+@use '../functions';
+@use '../variables/breakpoints';
+
+/* stylelint-disable media-feature-name-disallowed-list, media-query-no-invalid */
+// Media of at most the maximum breakpoint width. No query for the largest breakpoint.
+// Makes the @content apply to the given breakpoint and narrower.
+@mixin media-max($name, $grid-breakpoints: breakpoints.$breakpoints) {
+	$max: functions.breakpoint-max($name, $grid-breakpoints);
+
+	@if $max {
+		@media (max-width: $max) {
+			@content;
+		}
+	} @else {
+		@content;
+	}
+}

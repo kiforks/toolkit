@@ -1,21 +1,20 @@
 import { Provider } from '@angular/core';
 
-import { KsMediaService } from '../services';
+import { MediaService } from '../services';
 
-import { KsMediaConfig } from '../interfaces';
+import { MediaConfigData } from '../interfaces';
 
-import { KS_MEDIA_CONFIG_TOKEN } from '../tokens/media.token';
+import { MEDIA_CONFIG } from '../tokens/media.token';
 
 /**
- * Provides a configuration object for the KsMediaService.
+ * Provides a configuration object for the MediaService.
  *
- * @remarks
- * This function generates a provider array to configure the KsMediaService with the provided partial configuration.
+ * @remarks this function generates a provider array to configure the MediaService with the provided partial configuration.
  */
-export const provideKsMediaConfig = (config: Partial<KsMediaConfig>): Provider[] => [
-	KsMediaService,
+export const provideMediaConfig = (config: Partial<MediaConfigData>): Provider[] => [
+	MediaService,
 	{
-		provide: KS_MEDIA_CONFIG_TOKEN,
+		provide: MEDIA_CONFIG,
 		useValue: config,
 	},
 ];
