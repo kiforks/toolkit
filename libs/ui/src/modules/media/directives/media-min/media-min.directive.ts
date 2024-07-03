@@ -62,8 +62,6 @@ export class MediaMinDirective implements MediaElement, ConditionKeyword {
 
 	public readonly condition = signal(false);
 
-	private readonly mediaService = inject(MediaService);
-
 	// eslint-disable-next-line @typescript-eslint/unbound-method,@typescript-eslint/member-ordering
-	public readonly checkMedia = this.mediaService.mediaMin;
+	public readonly checkMedia = inject(MediaService).mediaMin;
 }
