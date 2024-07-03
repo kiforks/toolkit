@@ -15,7 +15,27 @@ describe('MediaMinDirective', () => {
 
 	const createDirective = createDirectiveFactory(MediaMinDirective);
 
-	it('should dynamically render directive content', () => {
+	const validElements = (po: MediaMinDirectivePo): void => {
+		expect(po.element).toExist();
+		expect(po.elements).toHaveLength(1);
+	};
+
+	const invalidElements = (po: MediaMinDirectivePo): void => {
+		expect(po.element).not.toExist();
+		expect(po.elements).toHaveLength(0);
+	};
+
+	const validConditionalElement = (po: MediaMinDirectivePo): void => {
+		validElements(po);
+		expect(directivePO.template).not.toExist();
+	};
+
+	const invalidConditionalElement = (po: MediaMinDirectivePo): void => {
+		invalidElements(po);
+		expect(directivePO.template).toExist();
+	};
+
+	it('should render directive content based on media breakpoint', () => {
 		const mediaServiceMock = new MediaServiceMock().setMediaMin(true);
 		const breakpoint: MediaBreakpoint = 'sm';
 
@@ -25,7 +45,7 @@ describe('MediaMinDirective', () => {
 			`
 				<div
 					*ksMediaMin="breakpoint"
-					test
+					data-po="element"
 				>
 					Test
 				</div>
@@ -35,8 +55,7 @@ describe('MediaMinDirective', () => {
 
 		directivePO = new MediaMinDirectivePo(spectator);
 
-		expect(directivePO.element).toExist();
-		expect(directivePO.elements).toHaveLength(1);
+		validElements(directivePO);
 		expect(spyOnMediaMin).toHaveBeenNthCalledWith(1, breakpoint);
 
 		const breakpointLG: MediaBreakpoint = 'lg';
@@ -44,8 +63,7 @@ describe('MediaMinDirective', () => {
 		mediaServiceMock.setMediaMin(false);
 		spectator.setHostInput({ breakpoint: breakpointLG });
 
-		expect(directivePO.element).not.toExist();
-		expect(directivePO.elements).toHaveLength(0);
+		invalidElements(directivePO);
 		expect(spyOnMediaMin).toHaveBeenNthCalledWith(2, breakpointLG);
 
 		const breakpointXL: MediaBreakpoint = 'xl';
@@ -53,8 +71,60 @@ describe('MediaMinDirective', () => {
 		mediaServiceMock.setMediaMin(true);
 		spectator.setHostInput({ breakpoint: breakpointXL });
 
-		expect(directivePO.element).toExist();
-		expect(directivePO.elements).toHaveLength(1);
+		validElements(directivePO);
 		expect(spyOnMediaMin).toHaveBeenNthCalledWith(3, breakpointXL);
+	});
+
+	it('should render directive content with complex conditions', () => {
+		const mediaServiceMock = new MediaServiceMock().setMediaMin(true);
+		const breakpoint: MediaBreakpoint = 'sm';
+
+		spectator = createDirective(
+			`
+				<div
+					*ksMediaMin="'md'; or: orCondition; and: andCondition; else templateRef;"
+					data-po="element"
+				>
+					Test
+				</div>
+				
+				<ng-template #templateRef>
+					<span data-po="template">Template content</span>
+				</ng-template>
+			`,
+			{
+				providers: [provideMediaServiceMock(mediaServiceMock)],
+				hostProps: { breakpoint, orCondition: false, andCondition: true },
+			}
+		);
+
+		directivePO = new MediaMinDirectivePo(spectator);
+
+		validConditionalElement(directivePO);
+
+		mediaServiceMock.setMediaMin(false);
+		spectator.detectChanges();
+
+		invalidConditionalElement(directivePO);
+
+		spectator.setHostInput({ orCondition: true });
+		spectator.detectChanges();
+
+		validConditionalElement(directivePO);
+
+		spectator.setHostInput({ andCondition: false });
+		spectator.detectChanges();
+
+		invalidConditionalElement(directivePO);
+
+		mediaServiceMock.setMediaMin(true);
+		spectator.detectChanges();
+
+		invalidConditionalElement(directivePO);
+
+		spectator.setHostInput({ andCondition: true });
+		spectator.detectChanges();
+
+		validConditionalElement(directivePO);
 	});
 });
